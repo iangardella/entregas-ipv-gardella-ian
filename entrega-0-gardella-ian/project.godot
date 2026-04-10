@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Primer_Juego_2D"
+config/name="entrega-0-gardella-ian"
+run/main_scene="uid://btpsgjr1rmso2"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
