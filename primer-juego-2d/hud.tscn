@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://bwpjoj5v7vn7n"]
+
+[ext_resource type="Script" uid="uid://sw57atllj13y" path="res://hud.gd" id="1_64ctp"]
+[ext_resource type="FontFile" uid="uid://dnam33q3ub3as" path="res://art/Xolonium-Regular.ttf" id="2_8sq4i"]
+
+[node name="HUD" type="CanvasLayer" unique_id=514432716]
+script = ExtResource("1_64ctp")
+
+[node name="ScoreLabel" type="Label" parent="." unique_id=2129457577]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 1.0
+offset_right = 100.0
+offset_bottom = 101.0
+grow_horizontal = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_8sq4i")
+theme_override_font_sizes/font_size = 64
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="." unique_id=1422140175]
+anchors_preset = -1
+anchor_left = 0.32700002
+anchor_top = 0.5
+anchor_right = 0.674
+anchor_bottom = 0.5
+offset_left = 0.29595947
+offset_top = -143.0
+offset_right = 0.55200195
+offset_bottom = 148.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_8sq4i")
+theme_override_font_sizes/font_size = 64
+text = "Dodge 
+the creeps
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StrartButton" type="Button" parent="." unique_id=94935877]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -99.0
+offset_top = -103.0
+offset_right = 101.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_8sq4i")
+theme_override_font_sizes/font_size = 48
+text = "START"
+
+[node name="ScoreLabel" type="Label" parent="StrartButton" unique_id=352854894]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="MessageTimer" type="Timer" parent="." unique_id=1711574194]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="pressed" from="StrartButton" to="." method="_on_strart_button_pressed"]
+[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
