@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://df234n8djw273"]
+
+[ext_resource type="Script" uid="uid://c4vd8imwa5trh" path="res://entities/bala.gd" id="1_script"]
+
+[node name="Bala" type="Node2D" unique_id=1847200345]
+script = ExtResource("1_script")
+
+[node name="Visual" type="ColorRect" parent="." unique_id=883106366]
+custom_minimum_size = Vector2(12, 4)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -2.0
+offset_right = 6.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.9, 0.2, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1046882792]
+target_position = Vector2(15, 0)
+collision_mask = 7

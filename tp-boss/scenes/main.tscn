@@ -1,0 +1,363 @@
+[gd_scene format=3 uid="uid://df234n8djw277"]
+
+[ext_resource type="Script" uid="uid://bxi88x7yi744n" path="res://scenes/main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://df234n8djw275" path="res://entities/jugador.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://df234n8djw276" path="res://entities/enemigo.tscn" id="3_enemy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(1400, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(40, 700)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat"]
+size = Vector2(300, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_step"]
+size = Vector2(80, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ladder"]
+size = Vector2(30, 140)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_banner"]
+bg_color = Color(0.05, 0.12, 0.25, 0.85)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.2, 0.65, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 10.0
+expand_margin_top = 5.0
+expand_margin_right = 10.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_banner"]
+font_size = 24
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud"]
+bg_color = Color(0.1, 0.1, 0.1, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.4, 0.4, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="Main" type="Node2D" unique_id=793121175]
+script = ExtResource("1_main")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1776543148]
+position = Vector2(576, 324)
+zoom = Vector2(1.2, 1.2)
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+
+[node name="Nivel" type="Node2D" parent="." unique_id=156302804]
+
+[node name="Suelo" type="StaticBody2D" parent="Nivel" unique_id=704473903]
+position = Vector2(576, 500)
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/Suelo" unique_id=1798648627]
+offset_left = -700.0
+offset_top = -20.0
+offset_right = 700.0
+offset_bottom = 20.0
+color = Color(0.12, 0.12, 0.14, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/Suelo" unique_id=1681941965]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="Techo" type="StaticBody2D" parent="Nivel" unique_id=1846338748]
+position = Vector2(576, 50)
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/Techo" unique_id=2101891354]
+offset_left = -700.0
+offset_top = -20.0
+offset_right = 700.0
+offset_bottom = 20.0
+color = Color(0.12, 0.12, 0.14, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/Techo" unique_id=1154739991]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="ParedIzquierda" type="StaticBody2D" parent="Nivel" unique_id=1875287197]
+position = Vector2(-70, 275)
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/ParedIzquierda" unique_id=706014674]
+offset_left = -20.0
+offset_top = -350.0
+offset_right = 20.0
+offset_bottom = 350.0
+color = Color(0.12, 0.12, 0.14, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/ParedIzquierda" unique_id=2044382014]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="ParedDerecha" type="StaticBody2D" parent="Nivel" unique_id=549877275]
+position = Vector2(1220, 275)
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/ParedDerecha" unique_id=1312965774]
+offset_left = -20.0
+offset_top = -350.0
+offset_right = 20.0
+offset_bottom = 350.0
+color = Color(0.12, 0.12, 0.14, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/ParedDerecha" unique_id=2024067533]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Plataforma1" type="StaticBody2D" parent="Nivel" unique_id=1163195779]
+position = Vector2(250, 360)
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/Plataforma1" unique_id=113830212]
+offset_left = -150.0
+offset_top = -10.0
+offset_right = 150.0
+offset_bottom = 10.0
+color = Color(0.2, 0.22, 0.25, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/Plataforma1" unique_id=631059631]
+shape = SubResource("RectangleShape2D_plat")
+
+[node name="Plataforma2" type="StaticBody2D" parent="Nivel" unique_id=152614146]
+position = Vector2(900, 360)
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/Plataforma2" unique_id=497423162]
+offset_left = -150.0
+offset_top = -10.0
+offset_right = 150.0
+offset_bottom = 10.0
+color = Color(0.2, 0.22, 0.25, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/Plataforma2" unique_id=931732971]
+shape = SubResource("RectangleShape2D_plat")
+
+[node name="PlataformaCentral" type="StaticBody2D" parent="Nivel" unique_id=1071981142]
+position = Vector2(576, 230)
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/PlataformaCentral" unique_id=47287707]
+offset_left = -150.0
+offset_top = -10.0
+offset_right = 150.0
+offset_bottom = 10.0
+color = Color(0.2, 0.22, 0.25, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/PlataformaCentral" unique_id=742351457]
+shape = SubResource("RectangleShape2D_plat")
+
+[node name="PasoIzquierdo" type="StaticBody2D" parent="Nivel" unique_id=222341132]
+position = Vector2(70, 430)
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/PasoIzquierdo" unique_id=1453923558]
+offset_left = -40.0
+offset_top = -10.0
+offset_right = 40.0
+offset_bottom = 10.0
+color = Color(0.18, 0.2, 0.23, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/PasoIzquierdo" unique_id=507765263]
+shape = SubResource("RectangleShape2D_step")
+
+[node name="PasoDerecho" type="StaticBody2D" parent="Nivel" unique_id=467782239]
+position = Vector2(1080, 430)
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/PasoDerecho" unique_id=544300315]
+offset_left = -40.0
+offset_top = -10.0
+offset_right = 40.0
+offset_bottom = 10.0
+color = Color(0.18, 0.2, 0.23, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/PasoDerecho" unique_id=578289062]
+shape = SubResource("RectangleShape2D_step")
+
+[node name="PasoCentralIzquierdo" type="StaticBody2D" parent="Nivel" unique_id=942201400]
+position = Vector2(410, 295)
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/PasoCentralIzquierdo" unique_id=865638456]
+offset_left = -40.0
+offset_top = -10.0
+offset_right = 40.0
+offset_bottom = 10.0
+color = Color(0.18, 0.2, 0.23, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/PasoCentralIzquierdo" unique_id=2081426145]
+shape = SubResource("RectangleShape2D_step")
+
+[node name="PasoCentralDerecho" type="StaticBody2D" parent="Nivel" unique_id=1096343467]
+position = Vector2(742, 295)
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/PasoCentralDerecho" unique_id=492102723]
+offset_left = -40.0
+offset_top = -10.0
+offset_right = 40.0
+offset_bottom = 10.0
+color = Color(0.18, 0.2, 0.23, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/PasoCentralDerecho" unique_id=1870439192]
+shape = SubResource("RectangleShape2D_step")
+
+[node name="EscaleraIzquierda" type="Area2D" parent="Nivel" unique_id=1383750706 groups=["escaleras"]]
+position = Vector2(100, 420)
+collision_layer = 0
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/EscaleraIzquierda" unique_id=280062476]
+offset_left = -15.0
+offset_top = -70.0
+offset_right = 15.0
+offset_bottom = 70.0
+color = Color(0.55, 0.35, 0.15, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/EscaleraIzquierda" unique_id=1020417465]
+shape = SubResource("RectangleShape2D_ladder")
+
+[node name="EscaleraDerecha" type="Area2D" parent="Nivel" unique_id=1531328195 groups=["escaleras"]]
+position = Vector2(1050, 420)
+collision_layer = 0
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Nivel/EscaleraDerecha" unique_id=725830013]
+offset_left = -15.0
+offset_top = -70.0
+offset_right = 15.0
+offset_bottom = 70.0
+color = Color(0.55, 0.35, 0.15, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/EscaleraDerecha" unique_id=661431154]
+shape = SubResource("RectangleShape2D_ladder")
+
+[node name="Jugadores" type="Node2D" parent="." unique_id=136100887]
+
+[node name="Jugador1" parent="Jugadores" unique_id=1683591239 instance=ExtResource("2_player")]
+position = Vector2(150, 460)
+
+[node name="Jugador2" parent="Jugadores" unique_id=1317652417 instance=ExtResource("2_player")]
+position = Vector2(250, 320)
+
+[node name="Enemigos" type="Node2D" parent="." unique_id=622685993]
+
+[node name="Enemigo1" parent="Enemigos" unique_id=2039127979 instance=ExtResource("3_enemy")]
+position = Vector2(900, 320)
+
+[node name="Enemigo2" parent="Enemigos" unique_id=1662004222 instance=ExtResource("3_enemy")]
+position = Vector2(1000, 460)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=558512444]
+
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=914628928]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BannerTurno" type="PanelContainer" parent="CanvasLayer/UI" unique_id=1749118874]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 20.0
+offset_right = 150.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_banner")
+
+[node name="TextoTurno" type="Label" parent="CanvasLayer/UI/BannerTurno" unique_id=1208307353]
+layout_mode = 2
+text = "TURNO DEL JUGADOR"
+label_settings = SubResource("LabelSettings_banner")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ContenedorAcciones" type="MarginContainer" parent="CanvasLayer/UI" unique_id=604637155]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -80.0
+offset_right = 160.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/ContenedorAcciones" unique_id=1960537168]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="BotonApuntar" type="Button" parent="CanvasLayer/UI/ContenedorAcciones/HBoxContainer" unique_id=1751626169]
+custom_minimum_size = Vector2(130, 40)
+layout_mode = 2
+focus_mode = 0
+text = "Apuntar [R-Click]"
+
+[node name="BotonTerminar" type="Button" parent="CanvasLayer/UI/ContenedorAcciones/HBoxContainer" unique_id=1680747614]
+custom_minimum_size = Vector2(130, 40)
+layout_mode = 2
+focus_mode = 0
+text = "Terminar Turno"
+
+[node name="PantallaFinal" type="PanelContainer" parent="CanvasLayer/UI" unique_id=312205880]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/PantallaFinal" unique_id=1582663513]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="TextoResultado" type="Label" parent="CanvasLayer/UI/PantallaFinal/VBoxContainer" unique_id=1020887429]
+layout_mode = 2
+text = "¡VICTORIA!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BotonReiniciar" type="Button" parent="CanvasLayer/UI/PantallaFinal/VBoxContainer" unique_id=1086263058]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+text = "Reiniciar Partida"
