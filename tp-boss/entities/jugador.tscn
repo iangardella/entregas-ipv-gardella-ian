@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://df234n8djw275"]
 
 [ext_resource type="Script" uid="uid://bv60fy3wmsbjr" path="res://entities/jugador.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://ctuuj04uhvsfp" path="res://entities/proyector_ruta.gd" id="2_proyector"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(32, 32)
@@ -40,3 +41,10 @@ default_color = Color(1, 0.3, 0.2, 0.75)
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
+
+[node name="ProyectorRuta" type="Node2D" parent="."]
+script = ExtResource("2_proyector")
+
+[node name="TimerFinTurno" type="Timer" parent="."]
+wait_time = 0.6
+one_shot = true

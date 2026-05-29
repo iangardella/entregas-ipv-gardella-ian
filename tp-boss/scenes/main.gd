@@ -66,12 +66,12 @@ func _process(delta: float) -> void:
 			break
 			
 	var target_pos = Vector2.INF
+	var activa = ManejadorTurnos.unidad_activa
 	
 	if seguir_objetivo:
 		target_pos = seguir_objetivo.global_position
 		pos_ultimo_impacto = target_pos 
 	else:
-		var activa = ManejadorTurnos.unidad_activa
 		if is_instance_valid(activa) and activa is UnidadBase:
 			if pos_ultimo_impacto != Vector2.INF and activa == ultima_unidad_activa:
 				target_pos = pos_ultimo_impacto
@@ -82,7 +82,6 @@ func _process(delta: float) -> void:
 				
 	if target_pos != Vector2.INF:
 		camara.global_position = camara.global_position.lerp(target_pos, 7.5 * delta)		
-	var activa = ManejadorTurnos.unidad_activa
 	if is_instance_valid(activa) and activa is UnidadBase:
 		boton_apuntar.disabled = not activa.puede_apuntar()
 

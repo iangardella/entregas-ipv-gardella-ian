@@ -7,8 +7,8 @@ var moviendo_a_destino: bool = false
 var es_movimiento_naranja: bool = true
 var puntos_ruta: PackedVector2Array = []
 var indice_ruta: int = 0
-var proyector: ProyectorRuta = null
-var timer_fin_turno: Timer
+@onready var proyector: ProyectorRuta = $ProyectorRuta
+@onready var timer_fin_turno: Timer = $TimerFinTurno
 
 
 func _nombre_equipo() -> String:
@@ -20,14 +20,7 @@ func _nombre_grupo() -> String:
 func inicializar() -> void:
 	add_to_group(_nombre_grupo())
 	RegistroUnidades.registrar(self, _nombre_equipo())
-	proyector = load("res://entities/proyector_ruta.gd").new()
-	proyector.name = "ProyectorRuta"
-	add_child(proyector)
 	proyector.ruta_seleccionada.connect(_on_ruta_seleccionada)
-	timer_fin_turno = Timer.new()
-	timer_fin_turno.one_shot = true
-	timer_fin_turno.wait_time = 0.6
-	add_child(timer_fin_turno)
 	timer_fin_turno.timeout.connect(_on_fin_turno_timeout)
 
 func activar() -> void:
