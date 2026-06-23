@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bv60fy3wmsbjr" path="res://entities/jugador.gd" id="1_script"]
 [ext_resource type="Script" uid="uid://ctuuj04uhvsfp" path="res://entities/proyector_ruta.gd" id="2_proyector"]
+[ext_resource type="SpriteFrames" path="res://assets/open-gunner/og_azul.tres" id="3_soldado1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(32, 32)
@@ -9,16 +10,15 @@ size = Vector2(32, 32)
 [node name="Jugador" type="CharacterBody2D" unique_id=1916725618]
 collision_layer = 2
 script = ExtResource("1_script")
-color_activo = Color(0.25, 0.65, 1, 1)
-color_inactivo = Color(0.1, 0.35, 0.6, 1)
+color_activo = Color(1, 1, 1, 1)
+color_inactivo = Color(0.5, 0.5, 0.5, 1)
 
-[node name="Visual" type="ColorRect" parent="." unique_id=1729763183]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-pivot_offset = Vector2(16, 16)
-color = Color(0.1, 0.35, 0.6, 1)
+[node name="Visual" type="AnimatedSprite2D" parent="." unique_id=1729763183]
+scale = Vector2(0.8, 0.8)
+offset = Vector2(0, -1)
+sprite_frames = ExtResource("3_soldado1")
+animation = &"idle"
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1253236720]
 shape = SubResource("RectangleShape2D_player")
@@ -26,6 +26,7 @@ shape = SubResource("RectangleShape2D_player")
 [node name="Arma" type="Node2D" parent="." unique_id=945743344]
 
 [node name="VisualArma" type="ColorRect" parent="Arma" unique_id=1977242102]
+visible = false
 offset_top = -3.0
 offset_right = 20.0
 offset_bottom = 3.0

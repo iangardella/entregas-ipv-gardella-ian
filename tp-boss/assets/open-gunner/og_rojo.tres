@@ -1,0 +1,198 @@
+[gd_resource type="SpriteFrames" load_steps=23 format=3]
+
+[ext_resource type="Texture2D" uid="uid://0hidxa336cya" path="res://assets/open-gunner/frames/hero_rojo.png" id="1_atlas"]
+
+[sub_resource type="AtlasTexture" id="a0"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 0, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a1"]
+atlas = ExtResource("1_atlas")
+region = Rect2(51, 0, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a2"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 58, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a3"]
+atlas = ExtResource("1_atlas")
+region = Rect2(51, 58, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a4"]
+atlas = ExtResource("1_atlas")
+region = Rect2(102, 58, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a5"]
+atlas = ExtResource("1_atlas")
+region = Rect2(153, 58, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a6"]
+atlas = ExtResource("1_atlas")
+region = Rect2(204, 58, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a7"]
+atlas = ExtResource("1_atlas")
+region = Rect2(255, 58, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a8"]
+atlas = ExtResource("1_atlas")
+region = Rect2(306, 58, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a9"]
+atlas = ExtResource("1_atlas")
+region = Rect2(357, 58, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a10"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 116, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a11"]
+atlas = ExtResource("1_atlas")
+region = Rect2(51, 116, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a12"]
+atlas = ExtResource("1_atlas")
+region = Rect2(102, 116, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a13"]
+atlas = ExtResource("1_atlas")
+region = Rect2(153, 116, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a14"]
+atlas = ExtResource("1_atlas")
+region = Rect2(204, 116, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a15"]
+atlas = ExtResource("1_atlas")
+region = Rect2(255, 116, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a16"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 174, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a17"]
+atlas = ExtResource("1_atlas")
+region = Rect2(51, 174, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a18"]
+atlas = ExtResource("1_atlas")
+region = Rect2(102, 174, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a19"]
+atlas = ExtResource("1_atlas")
+region = Rect2(153, 174, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a20"]
+atlas = ExtResource("1_atlas")
+region = Rect2(204, 174, 51, 58)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a0")
+}, {
+"duration": 1.0,
+"texture": SubResource("a1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a2")
+}, {
+"duration": 1.0,
+"texture": SubResource("a3")
+}, {
+"duration": 1.0,
+"texture": SubResource("a4")
+}, {
+"duration": 1.0,
+"texture": SubResource("a5")
+}, {
+"duration": 1.0,
+"texture": SubResource("a6")
+}, {
+"duration": 1.0,
+"texture": SubResource("a7")
+}, {
+"duration": 1.0,
+"texture": SubResource("a8")
+}, {
+"duration": 1.0,
+"texture": SubResource("a9")
+}],
+"loop": true,
+"name": &"caminar",
+"speed": 13.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a10")
+}, {
+"duration": 1.0,
+"texture": SubResource("a11")
+}, {
+"duration": 1.0,
+"texture": SubResource("a12")
+}, {
+"duration": 1.0,
+"texture": SubResource("a13")
+}],
+"loop": true,
+"name": &"trepar",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a14")
+}, {
+"duration": 1.0,
+"texture": SubResource("a15")
+}],
+"loop": true,
+"name": &"saltar",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a16")
+}],
+"loop": false,
+"name": &"aim_arriba",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a17")
+}],
+"loop": false,
+"name": &"aim_arribadiag",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a18")
+}],
+"loop": false,
+"name": &"aim_horizontal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a19")
+}],
+"loop": false,
+"name": &"aim_abajodiag",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a20")
+}],
+"loop": false,
+"name": &"aim_abajo",
+"speed": 5.0
+}]

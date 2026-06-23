@@ -55,7 +55,7 @@ func manejar_movimiento(delta: float) -> void:
 			
 			if abs(diff.x) > 6.0:
 				velocity.x = sign(diff.x) * velocidad
-				visual.scale.x = sign(diff.x)
+				visual.flip_h = diff.x < 0
 				arma.rotation = 0.0 if diff.x > 0 else PI
 			else:
 				velocity.x = 0
@@ -86,8 +86,9 @@ func manejar_movimiento(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, velocidad * delta)
 		
 		var pos_mouse = get_global_mouse_position()
-		if pos_mouse.x != global_position.x:
-			visual.scale.x = sign(pos_mouse.x - global_position.x)
+		var dx_mouse = pos_mouse.x - global_position.x
+		if absf(dx_mouse) > 24.0:
+			visual.flip_h = dx_mouse < 0
 
 func iniciar_fin_turno_sprint() -> void:
 	fin_turno_iniciado = true
@@ -105,14 +106,31 @@ func manejar_apuntado(_delta: float) -> void:
 	var dir_apuntado = (pos_mouse - arma.global_position).normalized()
 	arma.rotation = dir_apuntado.angle()
 	
-	if dir_apuntado.x != 0:
-		visual.scale.x = sign(dir_apuntado.x)
-	
+	if absf(dir_apuntado.x) > 0.15:
+		visual.flip_h = dir_apuntado.x < 0
+	_aplicar_pose_apuntado(dir_apuntado)
+
 	mira_laser.visible = true
 	actualizar_mira(dir_apuntado)
 	
 	if Input.is_action_just_pressed("click_disparar"):
 		disparar()
+
+
+func _aplicar_pose_apuntado(dir: Vector2) -> void:
+	if not (visual is AnimatedSprite2D):
+		return
+	var elev := rad_to_deg(atan2(-dir.y, abs(dir.x)))
+	var anim := &"aim_horizontal"
+	if elev > 67.0:
+		anim = &"aim_arriba"
+	elif elev > 22.0:
+		anim = &"aim_arribadiag"
+	elif elev < -67.0:
+		anim = &"aim_abajo"
+	elif elev < -22.0:
+		anim = &"aim_abajodiag"
+	visual.play(anim)
 
 
 func cambiar_a_apuntado() -> void:

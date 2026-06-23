@@ -4,6 +4,7 @@ extends CharacterBody2D
 
 const EscenaBala = preload("res://entities/bala.tscn")
 const EscenaPopDanio = preload("res://ui/pop_danio.tscn")
+const EscenaEfectoMuerte = preload("res://entities/efecto_muerte.tscn")
 
 const GRAVEDAD = 980.0
 
@@ -20,7 +21,7 @@ var vida: int
 @onready var arma: Node2D = $Arma
 @onready var muzzle: Node2D = $Arma/Muzzle
 @onready var mira_laser: Line2D = $MiraLaser
-@onready var visual: ColorRect = $Visual
+@onready var visual: AnimatedSprite2D = $Visual
 
 signal danio_recibido(cantidad: int, vida_restante: int)
 
@@ -29,7 +30,8 @@ func _ready() -> void:
 	add_to_group("unidades")
 	mira_laser.visible = false
 	mira_laser.top_level = true
-	
+	actualizar_color_visual(false)
+
 	var ind = load("res://ui/indicadores.gd").new()
 	ind.name = "Indicadores"
 	add_child(ind)
@@ -52,12 +54,12 @@ func desactivar() -> void:
 
 func actualizar_color_visual(activo: bool) -> void:
 	if visual:
-		visual.color = color_activo if activo else color_inactivo
+		visual.modulate = color_activo if activo else color_inactivo
 
 func disparar() -> void:
 	estado = Estado.ACCIONADO
 	mira_laser.visible = false
-	
+
 	var dir_disparo = Vector2.from_angle(arma.rotation)
 	var inicio_bala = muzzle.global_position
 	
@@ -136,6 +138,9 @@ func calcular_trayectoria(inicio: Vector2, direccion: Vector2, excluir: Array[RI
 	return puntos
 
 func _morir() -> void:
+	var efecto = EscenaEfectoMuerte.instantiate()
+	get_parent().add_child(efecto)
+	efecto.global_position = global_position
 	queue_free()
 
 func resetear_turno() -> void:
@@ -147,10 +152,25 @@ func _physics_process(delta: float) -> void:
 	
 	procesar_fisicas(delta)
 	move_and_slide()
+	_actualizar_animacion()
 	queue_redraw()
 
 func procesar_fisicas(_delta: float) -> void:
 	pass
+
+func _actualizar_animacion() -> void:
+	if not (visual is AnimatedSprite2D):
+		return
+	if estado == Estado.APUNTADO:
+		return
+	if collision_mask == 0 and abs(velocity.y) > 10.0:
+		visual.play(&"trepar")
+	elif abs(velocity.x) > 10.0:
+		visual.play(&"caminar")
+	elif not is_on_floor():
+		visual.play(&"saltar")
+	else:
+		visual.play(&"idle")
 
 
 func obtener_punto_camara() -> Vector2:

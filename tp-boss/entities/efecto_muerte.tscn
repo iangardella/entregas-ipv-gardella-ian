@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" uid="uid://dup1ygtoy74wo" path="res://assets/open-gunner/frames/flash.png" id="1_tex"]
+[ext_resource type="Script" uid="uid://id5km1iqf86r" path="res://entities/efecto_muerte.gd" id="2_scr"]
+
+[node name="EfectoMuerte" type="Sprite2D"]
+texture = ExtResource("1_tex")
+script = ExtResource("2_scr")

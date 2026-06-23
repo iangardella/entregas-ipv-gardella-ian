@@ -3,6 +3,14 @@
 [ext_resource type="Script" uid="uid://bxi88x7yi744n" path="res://scenes/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://df234n8djw275" path="res://entities/jugador.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://df234n8djw276" path="res://entities/enemigo.tscn" id="3_enemy"]
+[ext_resource type="Texture2D" uid="uid://gglpfqjxuhb7" path="res://assets/sprites/grass_top.png" id="4_grass"]
+[ext_resource type="Texture2D" uid="uid://ddq1hirg2hfrx" path="res://assets/sprites/dirt.png" id="5_dirt"]
+[ext_resource type="Texture2D" uid="uid://cjvbhq3gb6ag4" path="res://assets/sprites/liana.png" id="6_liana"]
+[ext_resource type="Texture2D" uid="uid://cwp8c8gldm4hr" path="res://assets/Platformer_Jungle Asset Pack/Background/BG5.png" id="7_bg5"]
+[ext_resource type="Texture2D" uid="uid://dioulb70mfg0r" path="res://assets/Platformer_Jungle Asset Pack/Background/BG4.png" id="8_bg4"]
+[ext_resource type="Texture2D" uid="uid://b4iddnkdamm74" path="res://assets/Platformer_Jungle Asset Pack/Background/BG3.png" id="9_bg3"]
+[ext_resource type="Texture2D" uid="uid://ct1kqj31yi70j" path="res://assets/Platformer_Jungle Asset Pack/Background/BG2.png" id="10_bg2"]
+[ext_resource type="Texture2D" uid="uid://duv7ysqet3ow3" path="res://assets/Platformer_Jungle Asset Pack/Background/BG1.png" id="11_bg1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1400, 40)
@@ -61,18 +69,59 @@ zoom = Vector2(1.2, 1.2)
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
+[node name="Fondo" type="Node2D" parent="."]
+
+[node name="BG5" type="Sprite2D" parent="Fondo"]
+z_index = -105
+position = Vector2(576, 285)
+scale = Vector2(2.1, 2.1)
+texture = ExtResource("7_bg5")
+
+[node name="BG4" type="Sprite2D" parent="Fondo"]
+z_index = -104
+position = Vector2(576, 285)
+scale = Vector2(2.1, 2.1)
+texture = ExtResource("8_bg4")
+
+[node name="BG3" type="Sprite2D" parent="Fondo"]
+z_index = -103
+position = Vector2(576, 285)
+scale = Vector2(2.1, 2.1)
+texture = ExtResource("9_bg3")
+
+[node name="BG2" type="Sprite2D" parent="Fondo"]
+z_index = -102
+position = Vector2(576, 285)
+scale = Vector2(2.1, 2.1)
+texture = ExtResource("10_bg2")
+
+[node name="BG1" type="Sprite2D" parent="Fondo"]
+z_index = -101
+position = Vector2(576, 285)
+scale = Vector2(2.1, 2.1)
+texture = ExtResource("11_bg1")
+
 [node name="Nivel" type="Node2D" parent="." unique_id=156302804]
 
 [node name="Suelo" type="StaticBody2D" parent="Nivel" unique_id=704473903]
 position = Vector2(576, 500)
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/Suelo" unique_id=1798648627]
-offset_left = -700.0
-offset_top = -20.0
-offset_right = 700.0
-offset_bottom = 20.0
-color = Color(0.12, 0.12, 0.14, 1)
+[node name="Pasto" type="Sprite2D" parent="Nivel/Suelo"]
+texture_repeat = 2
+position = Vector2(-700, -20)
+centered = false
+texture = ExtResource("4_grass")
+region_enabled = true
+region_rect = Rect2(0, 0, 1400, 16)
+
+[node name="Tierra" type="Sprite2D" parent="Nivel/Suelo"]
+texture_repeat = 2
+position = Vector2(-700, -4)
+centered = false
+texture = ExtResource("5_dirt")
+region_enabled = true
+region_rect = Rect2(0, 0, 1400, 24)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/Suelo" unique_id=1681941965]
 shape = SubResource("RectangleShape2D_floor")
@@ -81,12 +130,22 @@ shape = SubResource("RectangleShape2D_floor")
 position = Vector2(576, 50)
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/Techo" unique_id=2101891354]
-offset_left = -700.0
-offset_top = -20.0
-offset_right = 700.0
-offset_bottom = 20.0
-color = Color(0.12, 0.12, 0.14, 1)
+[node name="Tierra" type="Sprite2D" parent="Nivel/Techo"]
+texture_repeat = 2
+position = Vector2(-700, -20)
+centered = false
+texture = ExtResource("5_dirt")
+region_enabled = true
+region_rect = Rect2(0, 0, 1400, 40)
+
+[node name="Follaje" type="Sprite2D" parent="Nivel/Techo"]
+texture_repeat = 2
+position = Vector2(-700, 4)
+centered = false
+flip_v = true
+texture = ExtResource("4_grass")
+region_enabled = true
+region_rect = Rect2(0, 0, 1400, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/Techo" unique_id=1154739991]
 shape = SubResource("RectangleShape2D_floor")
@@ -95,12 +154,13 @@ shape = SubResource("RectangleShape2D_floor")
 position = Vector2(-70, 275)
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/ParedIzquierda" unique_id=706014674]
-offset_left = -20.0
-offset_top = -350.0
-offset_right = 20.0
-offset_bottom = 350.0
-color = Color(0.12, 0.12, 0.14, 1)
+[node name="Tierra" type="Sprite2D" parent="Nivel/ParedIzquierda"]
+texture_repeat = 2
+position = Vector2(-20, -350)
+centered = false
+texture = ExtResource("5_dirt")
+region_enabled = true
+region_rect = Rect2(0, 0, 40, 700)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/ParedIzquierda" unique_id=2044382014]
 shape = SubResource("RectangleShape2D_wall")
@@ -109,12 +169,13 @@ shape = SubResource("RectangleShape2D_wall")
 position = Vector2(1220, 275)
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/ParedDerecha" unique_id=1312965774]
-offset_left = -20.0
-offset_top = -350.0
-offset_right = 20.0
-offset_bottom = 350.0
-color = Color(0.12, 0.12, 0.14, 1)
+[node name="Tierra" type="Sprite2D" parent="Nivel/ParedDerecha"]
+texture_repeat = 2
+position = Vector2(-20, -350)
+centered = false
+texture = ExtResource("5_dirt")
+region_enabled = true
+region_rect = Rect2(0, 0, 40, 700)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/ParedDerecha" unique_id=2024067533]
 shape = SubResource("RectangleShape2D_wall")
@@ -123,12 +184,21 @@ shape = SubResource("RectangleShape2D_wall")
 position = Vector2(250, 360)
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/Plataforma1" unique_id=113830212]
-offset_left = -150.0
-offset_top = -10.0
-offset_right = 150.0
-offset_bottom = 10.0
-color = Color(0.2, 0.22, 0.25, 1)
+[node name="Pasto" type="Sprite2D" parent="Nivel/Plataforma1"]
+texture_repeat = 2
+position = Vector2(-150, -10)
+centered = false
+texture = ExtResource("4_grass")
+region_enabled = true
+region_rect = Rect2(0, 0, 300, 16)
+
+[node name="Tierra" type="Sprite2D" parent="Nivel/Plataforma1"]
+texture_repeat = 2
+position = Vector2(-150, 6)
+centered = false
+texture = ExtResource("5_dirt")
+region_enabled = true
+region_rect = Rect2(0, 0, 300, 4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/Plataforma1" unique_id=631059631]
 shape = SubResource("RectangleShape2D_plat")
@@ -137,12 +207,21 @@ shape = SubResource("RectangleShape2D_plat")
 position = Vector2(900, 360)
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/Plataforma2" unique_id=497423162]
-offset_left = -150.0
-offset_top = -10.0
-offset_right = 150.0
-offset_bottom = 10.0
-color = Color(0.2, 0.22, 0.25, 1)
+[node name="Pasto" type="Sprite2D" parent="Nivel/Plataforma2"]
+texture_repeat = 2
+position = Vector2(-150, -10)
+centered = false
+texture = ExtResource("4_grass")
+region_enabled = true
+region_rect = Rect2(0, 0, 300, 16)
+
+[node name="Tierra" type="Sprite2D" parent="Nivel/Plataforma2"]
+texture_repeat = 2
+position = Vector2(-150, 6)
+centered = false
+texture = ExtResource("5_dirt")
+region_enabled = true
+region_rect = Rect2(0, 0, 300, 4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/Plataforma2" unique_id=931732971]
 shape = SubResource("RectangleShape2D_plat")
@@ -151,12 +230,21 @@ shape = SubResource("RectangleShape2D_plat")
 position = Vector2(576, 230)
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/PlataformaCentral" unique_id=47287707]
-offset_left = -150.0
-offset_top = -10.0
-offset_right = 150.0
-offset_bottom = 10.0
-color = Color(0.2, 0.22, 0.25, 1)
+[node name="Pasto" type="Sprite2D" parent="Nivel/PlataformaCentral"]
+texture_repeat = 2
+position = Vector2(-150, -10)
+centered = false
+texture = ExtResource("4_grass")
+region_enabled = true
+region_rect = Rect2(0, 0, 300, 16)
+
+[node name="Tierra" type="Sprite2D" parent="Nivel/PlataformaCentral"]
+texture_repeat = 2
+position = Vector2(-150, 6)
+centered = false
+texture = ExtResource("5_dirt")
+region_enabled = true
+region_rect = Rect2(0, 0, 300, 4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/PlataformaCentral" unique_id=742351457]
 shape = SubResource("RectangleShape2D_plat")
@@ -165,12 +253,21 @@ shape = SubResource("RectangleShape2D_plat")
 position = Vector2(70, 430)
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/PasoIzquierdo" unique_id=1453923558]
-offset_left = -40.0
-offset_top = -10.0
-offset_right = 40.0
-offset_bottom = 10.0
-color = Color(0.18, 0.2, 0.23, 1)
+[node name="Pasto" type="Sprite2D" parent="Nivel/PasoIzquierdo"]
+texture_repeat = 2
+position = Vector2(-40, -10)
+centered = false
+texture = ExtResource("4_grass")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 16)
+
+[node name="Tierra" type="Sprite2D" parent="Nivel/PasoIzquierdo"]
+texture_repeat = 2
+position = Vector2(-40, 6)
+centered = false
+texture = ExtResource("5_dirt")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/PasoIzquierdo" unique_id=507765263]
 shape = SubResource("RectangleShape2D_step")
@@ -179,12 +276,21 @@ shape = SubResource("RectangleShape2D_step")
 position = Vector2(1080, 430)
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/PasoDerecho" unique_id=544300315]
-offset_left = -40.0
-offset_top = -10.0
-offset_right = 40.0
-offset_bottom = 10.0
-color = Color(0.18, 0.2, 0.23, 1)
+[node name="Pasto" type="Sprite2D" parent="Nivel/PasoDerecho"]
+texture_repeat = 2
+position = Vector2(-40, -10)
+centered = false
+texture = ExtResource("4_grass")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 16)
+
+[node name="Tierra" type="Sprite2D" parent="Nivel/PasoDerecho"]
+texture_repeat = 2
+position = Vector2(-40, 6)
+centered = false
+texture = ExtResource("5_dirt")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/PasoDerecho" unique_id=578289062]
 shape = SubResource("RectangleShape2D_step")
@@ -193,12 +299,21 @@ shape = SubResource("RectangleShape2D_step")
 position = Vector2(410, 295)
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/PasoCentralIzquierdo" unique_id=865638456]
-offset_left = -40.0
-offset_top = -10.0
-offset_right = 40.0
-offset_bottom = 10.0
-color = Color(0.18, 0.2, 0.23, 1)
+[node name="Pasto" type="Sprite2D" parent="Nivel/PasoCentralIzquierdo"]
+texture_repeat = 2
+position = Vector2(-40, -10)
+centered = false
+texture = ExtResource("4_grass")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 16)
+
+[node name="Tierra" type="Sprite2D" parent="Nivel/PasoCentralIzquierdo"]
+texture_repeat = 2
+position = Vector2(-40, 6)
+centered = false
+texture = ExtResource("5_dirt")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/PasoCentralIzquierdo" unique_id=2081426145]
 shape = SubResource("RectangleShape2D_step")
@@ -207,12 +322,21 @@ shape = SubResource("RectangleShape2D_step")
 position = Vector2(742, 295)
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/PasoCentralDerecho" unique_id=492102723]
-offset_left = -40.0
-offset_top = -10.0
-offset_right = 40.0
-offset_bottom = 10.0
-color = Color(0.18, 0.2, 0.23, 1)
+[node name="Pasto" type="Sprite2D" parent="Nivel/PasoCentralDerecho"]
+texture_repeat = 2
+position = Vector2(-40, -10)
+centered = false
+texture = ExtResource("4_grass")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 16)
+
+[node name="Tierra" type="Sprite2D" parent="Nivel/PasoCentralDerecho"]
+texture_repeat = 2
+position = Vector2(-40, 6)
+centered = false
+texture = ExtResource("5_dirt")
+region_enabled = true
+region_rect = Rect2(0, 0, 80, 4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/PasoCentralDerecho" unique_id=1870439192]
 shape = SubResource("RectangleShape2D_step")
@@ -222,12 +346,13 @@ position = Vector2(100, 420)
 collision_layer = 0
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/EscaleraIzquierda" unique_id=280062476]
-offset_left = -15.0
-offset_top = -70.0
-offset_right = 15.0
-offset_bottom = 70.0
-color = Color(0.55, 0.35, 0.15, 0.5)
+[node name="Liana" type="Sprite2D" parent="Nivel/EscaleraIzquierda"]
+texture_repeat = 2
+position = Vector2(-12, -70)
+centered = false
+texture = ExtResource("6_liana")
+region_enabled = true
+region_rect = Rect2(0, 0, 24, 140)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/EscaleraIzquierda" unique_id=1020417465]
 shape = SubResource("RectangleShape2D_ladder")
@@ -237,12 +362,13 @@ position = Vector2(1050, 420)
 collision_layer = 0
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Nivel/EscaleraDerecha" unique_id=725830013]
-offset_left = -15.0
-offset_top = -70.0
-offset_right = 15.0
-offset_bottom = 70.0
-color = Color(0.55, 0.35, 0.15, 0.5)
+[node name="Liana" type="Sprite2D" parent="Nivel/EscaleraDerecha"]
+texture_repeat = 2
+position = Vector2(-12, -70)
+centered = false
+texture = ExtResource("6_liana")
+region_enabled = true
+region_rect = Rect2(0, 0, 24, 140)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/EscaleraDerecha" unique_id=661431154]
 shape = SubResource("RectangleShape2D_ladder")

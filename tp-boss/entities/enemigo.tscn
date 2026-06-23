@@ -1,16 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://df234n8djw276"]
+[gd_scene load_steps=4 format=3 uid="uid://df234n8djw276"]
 
 [ext_resource type="PackedScene" uid="uid://df234n8djw275" path="res://entities/jugador.tscn" id="1_jugador_scene"]
 [ext_resource type="Script" uid="uid://cdxl04qxlrwgc" path="res://entities/enemigo.gd" id="2_script"]
+[ext_resource type="SpriteFrames" path="res://assets/open-gunner/og_rojo.tres" id="3_soldado2"]
 
 [node name="Enemigo" instance=ExtResource("1_jugador_scene")]
 collision_layer = 4
 script = ExtResource("2_script")
-color_activo = Color(1, 0.25, 0.25, 1)
-color_inactivo = Color(0.7, 0.15, 0.15, 1)
+color_activo = Color(1, 1, 1, 1)
+color_inactivo = Color(0.5, 0.5, 0.5, 1)
 
 [node name="Visual" parent="." index="0"]
-color = Color(0.7, 0.15, 0.15, 1)
+sprite_frames = ExtResource("3_soldado2")
 
 [node name="MiraLaser" parent="." index="3"]
 default_color = Color(1, 0.3, 0.2, 0.6)
