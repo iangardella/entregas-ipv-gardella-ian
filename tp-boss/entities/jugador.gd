@@ -30,6 +30,19 @@ func activar() -> void:
 	if is_instance_valid(proyector):
 		proyector.actualizar_zonas_resaltadas()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if ManejadorTurnos.unidad_activa != self:
+		return
+	if estado != Estado.MOVIMIENTO and estado != Estado.APUNTADO:
+		return
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_1:
+			seleccionar_arma(false)
+		elif event.keycode == KEY_2:
+			seleccionar_arma(true)
+	if estado == Estado.APUNTADO and event.is_action_pressed("click_disparar"):
+		disparar()
+
 func _on_ruta_seleccionada(path: PackedVector2Array, _dist: float, _destino: Vector2, es_naranja: bool) -> void:
 	puntos_ruta = path
 	indice_ruta = 1
@@ -113,8 +126,7 @@ func manejar_apuntado(_delta: float) -> void:
 	mira_laser.visible = true
 	actualizar_mira(dir_apuntado)
 	
-	if Input.is_action_just_pressed("click_disparar"):
-		disparar()
+	# El disparo se maneja en _unhandled_input para no disparar al tocar la HUD.
 
 
 func _aplicar_pose_apuntado(dir: Vector2) -> void:

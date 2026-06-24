@@ -8,14 +8,20 @@ var danio: int = 25  #El que me diga algo de la ñ, le digo con amor que escriba
 var max_rebotes: int = 3
 var rebotes_actuales: int = 0
 var tirador: Node2D = null
+var empuje: float = 0.0
+var distancia_max: float = -1.0
+var recorrido: float = 0.0
 
 signal impacto_resuelto
 
-func lanzar(pos_inicio: Vector2, dir_inicio: Vector2, valor_danio: int, unidad_tirador: Node2D) -> void:
+func lanzar(pos_inicio: Vector2, dir_inicio: Vector2, valor_danio: int, unidad_tirador: Node2D, valor_empuje: float = 0.0, valor_distancia: float = -1.0, valor_rebotes: int = 3) -> void:
 	global_position = pos_inicio
 	direccion = dir_inicio.normalized()
 	danio = valor_danio 
 	tirador = unidad_tirador
+	empuje = valor_empuje
+	distancia_max = valor_distancia
+	max_rebotes = valor_rebotes
 	rotation = direccion.angle()
 
 func _ready() -> void:
@@ -37,6 +43,8 @@ func _physics_process(delta: float) -> void:
 		
 		if is_instance_valid(colisionador) and colisionador.has_method("recibir_danio"):
 			colisionador.recibir_danio(danio)
+			if empuje > 0.0 and colisionador.has_method("aplicar_empuje"):
+				colisionador.aplicar_empuje(global_position, empuje)
 			_finalizar()
 			return
 
@@ -49,6 +57,9 @@ func _physics_process(delta: float) -> void:
 			_finalizar()
 	else:
 		global_position += direccion * paso
+		recorrido += paso
+		if distancia_max > 0.0 and recorrido >= distancia_max:
+			_finalizar()
 
 func _finalizar() -> void:
 	impacto_resuelto.emit()

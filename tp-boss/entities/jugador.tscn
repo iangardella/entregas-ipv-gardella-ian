@@ -44,6 +44,17 @@ joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 
+[node name="MiraArea" type="Line2D" parent="."]
+visible = false
+width = 2.0
+default_color = Color(0.4, 1, 0.4, 0.6)
+closed = true
+
+[node name="MiraRelleno" type="Polygon2D" parent="."]
+visible = false
+z_index = -1
+color = Color(0.4, 1, 0.4, 0.18)
+
 [node name="ProyectorRuta" type="Node2D" parent="."]
 script = ExtResource("2_proyector")
 

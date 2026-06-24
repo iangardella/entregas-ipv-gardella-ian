@@ -22,3 +22,7 @@ func _draw() -> void:
 	draw_rect(Rect2(vida_pos, Vector2(vida_ancho, vida_alto)), Color(0.2, 0.1, 0.1))
 	var vida_ratio = float(unidad.vida) / unidad.vida_maxima
 	draw_rect(Rect2(vida_pos, Vector2(vida_ancho * vida_ratio, vida_alto)), unidad.color_equipo)
+
+	if ManejadorTurnos.unidad_activa == unidad:
+		var y := -38.0
+		draw_colored_polygon(PackedVector2Array([Vector2(-7, y), Vector2(7, y), Vector2(0, y + 9)]), unidad.color_equipo)

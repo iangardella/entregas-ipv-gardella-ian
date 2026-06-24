@@ -9,6 +9,19 @@ extends Node2D
 @onready var pantalla_final: PanelContainer = $CanvasLayer/UI/PantallaFinal
 @onready var texto_resultado: Label = $CanvasLayer/UI/PantallaFinal/VBoxContainer/TextoResultado
 @onready var boton_reiniciar: Button = $CanvasLayer/UI/PantallaFinal/VBoxContainer/BotonReiniciar
+@onready var panel_personaje: PanelContainer = $CanvasLayer/UI/PanelPersonaje
+@onready var panel_personaje_swatch: ColorRect = $CanvasLayer/UI/PanelPersonaje/HBoxPersonaje/Swatch
+@onready var panel_personaje_label: Label = $CanvasLayer/UI/PanelPersonaje/HBoxPersonaje/LabelPersonaje
+@onready var contenedor_armas: PanelContainer = $CanvasLayer/UI/ContenedorArmas
+@onready var label_arma: Label = $CanvasLayer/UI/ContenedorArmas/VBoxArmas/LabelArma
+@onready var boton_pistola: TextureButton = $CanvasLayer/UI/ContenedorArmas/VBoxArmas/HBoxArmas/BotonPistola
+@onready var boton_principal: TextureButton = $CanvasLayer/UI/ContenedorArmas/VBoxArmas/HBoxArmas/BotonPrincipal
+
+const ICONO_PISTOLA = preload("res://assets/iconos/pistola.svg")
+const ICONO_ESCOPETA = preload("res://assets/iconos/escopeta.svg")
+const ICONO_GRANADA = preload("res://assets/iconos/granada.svg")
+
+var _unidad_hud: Node = null
 
 var ultima_unidad_activa: Node2D = null
 var pos_ultimo_impacto: Vector2 = Vector2.INF
@@ -44,6 +57,10 @@ func _ready() -> void:
 	
 	pantalla_final.visible = false
 	contenedor_acciones.visible = false
+	contenedor_armas.visible = false
+	panel_personaje.visible = false
+	boton_pistola.pressed.connect(func(): _elegir_arma(false))
+	boton_principal.pressed.connect(func(): _elegir_arma(true))
 	
 	camara.limit_left = -70
 	camara.limit_right = 1220
@@ -106,8 +123,54 @@ func _on_unidad_activada(unidad: Node2D) -> void:
 	if is_instance_valid(unidad) and unidad.is_in_group("unidades"):
 		contenedor_acciones.visible = true
 		boton_apuntar.disabled = false
+		contenedor_armas.visible = true
+		panel_personaje.visible = true
+		_actualizar_panel_personaje(unidad)
+		if is_instance_valid(_unidad_hud) and _unidad_hud.arma_cambiada.is_connected(_on_arma_cambiada):
+			_unidad_hud.arma_cambiada.disconnect(_on_arma_cambiada)
+		_unidad_hud = unidad
+		if not unidad.arma_cambiada.is_connected(_on_arma_cambiada):
+			unidad.arma_cambiada.connect(_on_arma_cambiada)
+		_actualizar_iconos_armas(unidad)
+		_on_arma_cambiada(unidad.arma_activa, unidad.tipo_arma, unidad.usos_principal_restantes)
 	else:
 		contenedor_acciones.visible = false
+		contenedor_armas.visible = false
+		panel_personaje.visible = false
+
+func _elegir_arma(principal: bool) -> void:
+	var u = ManejadorTurnos.unidad_activa
+	if is_instance_valid(u) and u.has_method("seleccionar_arma"):
+		u.seleccionar_arma(principal)
+
+func _actualizar_panel_personaje(unidad: Node2D) -> void:
+	panel_personaje_swatch.color = unidad.color_equipo
+	panel_personaje_label.text = "JUGADOR 1" if unidad.is_in_group("jugadores") else "JUGADOR 2"
+
+func _actualizar_iconos_armas(unidad: Node2D) -> void:
+	match unidad.tipo_arma:
+		UnidadBase.ArmaTipo.ESCOPETA:
+			boton_principal.texture_normal = ICONO_ESCOPETA
+		UnidadBase.ArmaTipo.GRANADA:
+			boton_principal.texture_normal = ICONO_GRANADA
+		_:
+			boton_principal.texture_normal = ICONO_PISTOLA
+	boton_principal.visible = unidad.tipo_arma != UnidadBase.ArmaTipo.PISTOLA
+
+func _on_arma_cambiada(activa: int, principal: int, usos: int) -> void:
+	var es_principal := activa != UnidadBase.ArmaTipo.PISTOLA
+	boton_pistola.modulate = Color(1, 1, 1, 1) if not es_principal else Color(0.5, 0.5, 0.55, 1)
+	if usos <= 0:
+		boton_principal.disabled = true
+		boton_principal.modulate = Color(0.95, 0.25, 0.25, 1)
+	else:
+		boton_principal.disabled = false
+		boton_principal.modulate = Color(1, 1, 1, 1) if es_principal else Color(0.5, 0.5, 0.55, 1)
+	if es_principal:
+		var nombre := "Escopeta" if principal == UnidadBase.ArmaTipo.ESCOPETA else "Granada"
+		label_arma.text = "%s  x%d" % [nombre, usos]
+	else:
+		label_arma.text = "Pistola"
 
 func _on_juego_terminado(ganador: String) -> void:
 	pantalla_final.visible = true

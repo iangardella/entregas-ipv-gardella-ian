@@ -11,6 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://b4iddnkdamm74" path="res://assets/Platformer_Jungle Asset Pack/Background/BG3.png" id="9_bg3"]
 [ext_resource type="Texture2D" uid="uid://ct1kqj31yi70j" path="res://assets/Platformer_Jungle Asset Pack/Background/BG2.png" id="10_bg2"]
 [ext_resource type="Texture2D" uid="uid://duv7ysqet3ow3" path="res://assets/Platformer_Jungle Asset Pack/Background/BG1.png" id="11_bg1"]
+[ext_resource type="Texture2D" uid="uid://hvfkwqqj3ude" path="res://assets/iconos/pistola.svg" id="12_pistola"]
+[ext_resource type="Texture2D" uid="uid://c1r7o00pg3yjs" path="res://assets/iconos/escopeta.svg" id="13_escopeta"]
+[ext_resource type="Texture2D" uid="uid://ds4xj5rdyaa4t" path="res://assets/iconos/granada.svg" id="14_granada"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1400, 40)
@@ -377,17 +380,21 @@ shape = SubResource("RectangleShape2D_ladder")
 
 [node name="Jugador1" parent="Jugadores" unique_id=1683591239 instance=ExtResource("2_player")]
 position = Vector2(150, 460)
+tipo_arma = 1
 
 [node name="Jugador2" parent="Jugadores" unique_id=1317652417 instance=ExtResource("2_player")]
 position = Vector2(250, 320)
+tipo_arma = 2
 
 [node name="Enemigos" type="Node2D" parent="." unique_id=622685993]
 
 [node name="Enemigo1" parent="Enemigos" unique_id=2039127979 instance=ExtResource("3_enemy")]
 position = Vector2(900, 320)
+tipo_arma = 1
 
 [node name="Enemigo2" parent="Enemigos" unique_id=1662004222 instance=ExtResource("3_enemy")]
 position = Vector2(1000, 460)
+tipo_arma = 2
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=558512444]
 
@@ -487,3 +494,72 @@ layout_mode = 2
 size_flags_horizontal = 4
 focus_mode = 0
 text = "Reiniciar Partida"
+
+[node name="PanelPersonaje" type="PanelContainer" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -64.0
+offset_right = 230.0
+offset_bottom = -16.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud")
+
+[node name="HBoxPersonaje" type="HBoxContainer" parent="CanvasLayer/UI/PanelPersonaje"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Swatch" type="ColorRect" parent="CanvasLayer/UI/PanelPersonaje/HBoxPersonaje"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+color = Color(0.25, 0.65, 1, 1)
+
+[node name="LabelPersonaje" type="Label" parent="CanvasLayer/UI/PanelPersonaje/HBoxPersonaje"]
+layout_mode = 2
+text = "JUGADOR 1"
+vertical_alignment = 1
+
+[node name="ContenedorArmas" type="PanelContainer" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -184.0
+offset_top = -110.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud")
+
+[node name="VBoxArmas" type="VBoxContainer" parent="CanvasLayer/UI/ContenedorArmas"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LabelArma" type="Label" parent="CanvasLayer/UI/ContenedorArmas/VBoxArmas"]
+layout_mode = 2
+text = "Pistola"
+horizontal_alignment = 1
+
+[node name="HBoxArmas" type="HBoxContainer" parent="CanvasLayer/UI/ContenedorArmas/VBoxArmas"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="BotonPistola" type="TextureButton" parent="CanvasLayer/UI/ContenedorArmas/VBoxArmas/HBoxArmas"]
+custom_minimum_size = Vector2(58, 58)
+layout_mode = 2
+texture_normal = ExtResource("12_pistola")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BotonPrincipal" type="TextureButton" parent="CanvasLayer/UI/ContenedorArmas/VBoxArmas/HBoxArmas"]
+custom_minimum_size = Vector2(58, 58)
+layout_mode = 2
+texture_normal = ExtResource("13_escopeta")
+ignore_texture_size = true
+stretch_mode = 5
