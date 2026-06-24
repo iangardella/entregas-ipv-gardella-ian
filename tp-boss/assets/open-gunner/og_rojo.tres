@@ -1,14 +1,26 @@
-[gd_resource type="SpriteFrames" load_steps=23 format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://cjgph2c3jcyfl"]
 
 [ext_resource type="Texture2D" uid="uid://0hidxa336cya" path="res://assets/open-gunner/frames/hero_rojo.png" id="1_atlas"]
 
-[sub_resource type="AtlasTexture" id="a0"]
+[sub_resource type="AtlasTexture" id="a20"]
 atlas = ExtResource("1_atlas")
-region = Rect2(0, 0, 51, 58)
+region = Rect2(204, 174, 51, 58)
 
-[sub_resource type="AtlasTexture" id="a1"]
+[sub_resource type="AtlasTexture" id="a19"]
 atlas = ExtResource("1_atlas")
-region = Rect2(51, 0, 51, 58)
+region = Rect2(153, 174, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a16"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 174, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a17"]
+atlas = ExtResource("1_atlas")
+region = Rect2(51, 174, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a18"]
+atlas = ExtResource("1_atlas")
+region = Rect2(102, 174, 51, 58)
 
 [sub_resource type="AtlasTexture" id="a2"]
 atlas = ExtResource("1_atlas")
@@ -42,6 +54,22 @@ region = Rect2(306, 58, 51, 58)
 atlas = ExtResource("1_atlas")
 region = Rect2(357, 58, 51, 58)
 
+[sub_resource type="AtlasTexture" id="a0"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 0, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a1"]
+atlas = ExtResource("1_atlas")
+region = Rect2(51, 0, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a14"]
+atlas = ExtResource("1_atlas")
+region = Rect2(204, 116, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a15"]
+atlas = ExtResource("1_atlas")
+region = Rect2(255, 116, 51, 58)
+
 [sub_resource type="AtlasTexture" id="a10"]
 atlas = ExtResource("1_atlas")
 region = Rect2(0, 116, 51, 58)
@@ -58,46 +86,47 @@ region = Rect2(102, 116, 51, 58)
 atlas = ExtResource("1_atlas")
 region = Rect2(153, 116, 51, 58)
 
-[sub_resource type="AtlasTexture" id="a14"]
-atlas = ExtResource("1_atlas")
-region = Rect2(204, 116, 51, 58)
-
-[sub_resource type="AtlasTexture" id="a15"]
-atlas = ExtResource("1_atlas")
-region = Rect2(255, 116, 51, 58)
-
-[sub_resource type="AtlasTexture" id="a16"]
-atlas = ExtResource("1_atlas")
-region = Rect2(0, 174, 51, 58)
-
-[sub_resource type="AtlasTexture" id="a17"]
-atlas = ExtResource("1_atlas")
-region = Rect2(51, 174, 51, 58)
-
-[sub_resource type="AtlasTexture" id="a18"]
-atlas = ExtResource("1_atlas")
-region = Rect2(102, 174, 51, 58)
-
-[sub_resource type="AtlasTexture" id="a19"]
-atlas = ExtResource("1_atlas")
-region = Rect2(153, 174, 51, 58)
-
-[sub_resource type="AtlasTexture" id="a20"]
-atlas = ExtResource("1_atlas")
-region = Rect2(204, 174, 51, 58)
-
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("a0")
-}, {
-"duration": 1.0,
-"texture": SubResource("a1")
+"texture": SubResource("a20")
 }],
-"loop": true,
-"name": &"idle",
-"speed": 2.0
+"loop": false,
+"name": &"aim_abajo",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a19")
+}],
+"loop": false,
+"name": &"aim_abajodiag",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a16")
+}],
+"loop": false,
+"name": &"aim_arriba",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a17")
+}],
+"loop": false,
+"name": &"aim_arribadiag",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a18")
+}],
+"loop": false,
+"name": &"aim_horizontal",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -130,20 +159,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("a10")
+"texture": SubResource("a0")
 }, {
 "duration": 1.0,
-"texture": SubResource("a11")
-}, {
-"duration": 1.0,
-"texture": SubResource("a12")
-}, {
-"duration": 1.0,
-"texture": SubResource("a13")
+"texture": SubResource("a1")
 }],
 "loop": true,
-"name": &"trepar",
-"speed": 8.0
+"name": &"idle",
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -158,41 +181,18 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("a16")
-}],
-"loop": false,
-"name": &"aim_arriba",
-"speed": 5.0
+"texture": SubResource("a10")
 }, {
-"frames": [{
 "duration": 1.0,
-"texture": SubResource("a17")
-}],
-"loop": false,
-"name": &"aim_arribadiag",
-"speed": 5.0
+"texture": SubResource("a11")
 }, {
-"frames": [{
 "duration": 1.0,
-"texture": SubResource("a18")
-}],
-"loop": false,
-"name": &"aim_horizontal",
-"speed": 5.0
+"texture": SubResource("a12")
 }, {
-"frames": [{
 "duration": 1.0,
-"texture": SubResource("a19")
+"texture": SubResource("a13")
 }],
-"loop": false,
-"name": &"aim_abajodiag",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("a20")
-}],
-"loop": false,
-"name": &"aim_abajo",
-"speed": 5.0
+"loop": true,
+"name": &"trepar",
+"speed": 8.0
 }]

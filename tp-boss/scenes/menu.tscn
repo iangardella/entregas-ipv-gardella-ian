@@ -1,0 +1,173 @@
+[gd_scene format=3 uid="uid://rh3puhldgrlh"]
+
+[ext_resource type="Script" path="res://scenes/menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" uid="uid://cwp8c8gldm4hr" path="res://assets/Platformer_Jungle Asset Pack/Background/BG5.png" id="2_bg5"]
+[ext_resource type="Texture2D" uid="uid://duv7ysqet3ow3" path="res://assets/Platformer_Jungle Asset Pack/Background/BG1.png" id="3_bg1"]
+
+[sub_resource type="LabelSettings" id="LS_titulo"]
+font_size = 56
+font_color = Color(0.86, 0.96, 0.78, 1)
+outline_size = 10
+outline_color = Color(0, 0.06, 0, 1)
+
+[sub_resource type="LabelSettings" id="LS_sub"]
+font_size = 18
+font_color = Color(0.82, 0.88, 0.8, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="SB_panel"]
+bg_color = Color(0.05, 0.1, 0.06, 0.93)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.3, 0.62, 0.32, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_right = 6.0
+expand_margin_bottom = 6.0
+
+[node name="MenuPrincipal" type="Control" unique_id=574804337]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Fondo" type="TextureRect" parent="." unique_id=484169770]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg5")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Fondo2" type="TextureRect" parent="." unique_id=676379119]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_bg1")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Oscurecer" type="ColorRect" parent="." unique_id=1447245005]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="CentroVBox" type="VBoxContainer" parent="." unique_id=392461880]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -170.0
+offset_right = 160.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Titulo" type="Label" parent="CentroVBox" unique_id=1627819645]
+layout_mode = 2
+text = "VIERNES DE JUNGLA"
+label_settings = SubResource("LS_titulo")
+horizontal_alignment = 1
+
+[node name="Subtitulo" type="Label" parent="CentroVBox" unique_id=1451357073]
+layout_mode = 2
+text = "Combate táctico por turnos"
+label_settings = SubResource("LS_sub")
+horizontal_alignment = 1
+
+[node name="Espacio" type="Control" parent="CentroVBox" unique_id=197281929]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="BotonJugar" type="Button" parent="CentroVBox" unique_id=1966887807]
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+focus_mode = 0
+text = "Jugar"
+
+[node name="BotonInstrucciones" type="Button" parent="CentroVBox" unique_id=792394814]
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+focus_mode = 0
+text = "Instrucciones"
+
+[node name="BotonSalir" type="Button" parent="CentroVBox" unique_id=2115356039]
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+focus_mode = 0
+text = "Salir"
+
+[node name="PanelInstrucciones" type="PanelContainer" parent="." unique_id=1133916516]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -190.0
+offset_right = 280.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("SB_panel")
+
+[node name="MargenInstr" type="MarginContainer" parent="PanelInstrucciones" unique_id=2142281515]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 22
+
+[node name="VBoxInstr" type="VBoxContainer" parent="PanelInstrucciones/MargenInstr" unique_id=510616614]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TituloInstr" type="Label" parent="PanelInstrucciones/MargenInstr/VBoxInstr" unique_id=1847107709]
+layout_mode = 2
+text = "CÓMO JUGAR"
+label_settings = SubResource("LS_sub")
+horizontal_alignment = 1
+
+[node name="TextoInstr" type="Label" parent="PanelInstrucciones/MargenInstr/VBoxInstr" unique_id=435289573]
+layout_mode = 2
+text = "Ni idea hermano 
+
+Fijate vos
+
+
+Saludos 
+Ian"
+autowrap_mode = 3
+
+[node name="BotonVolver" type="Button" parent="PanelInstrucciones/MargenInstr/VBoxInstr" unique_id=1116704846]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+focus_mode = 0
+text = "Volver"

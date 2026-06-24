@@ -15,6 +15,7 @@ var estado: Estado = Estado.INACTIVO
 @export var danio_base: int = 25
 @export var color_activo: Color = Color(0.5, 0.5, 0.5)
 @export var color_inactivo: Color = Color(0.3, 0.3, 0.3)
+@export var color_equipo: Color = Color(0.5, 0.5, 0.5)
 
 var vida: int
 

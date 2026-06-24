@@ -21,4 +21,4 @@ func _draw() -> void:
 	
 	draw_rect(Rect2(vida_pos, Vector2(vida_ancho, vida_alto)), Color(0.2, 0.1, 0.1))
 	var vida_ratio = float(unidad.vida) / unidad.vida_maxima
-	draw_rect(Rect2(vida_pos, Vector2(vida_ancho * vida_ratio, vida_alto)), unidad.color_activo)
+	draw_rect(Rect2(vida_pos, Vector2(vida_ancho * vida_ratio, vida_alto)), unidad.color_equipo)

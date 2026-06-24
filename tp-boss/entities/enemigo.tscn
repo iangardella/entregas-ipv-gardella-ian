@@ -9,6 +9,7 @@ collision_layer = 4
 script = ExtResource("2_script")
 color_activo = Color(1, 1, 1, 1)
 color_inactivo = Color(0.5, 0.5, 0.5, 1)
+color_equipo = Color(1, 0.25, 0.25, 1)
 
 [node name="Visual" parent="." index="0"]
 sprite_frames = ExtResource("3_soldado2")
