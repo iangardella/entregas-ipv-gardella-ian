@@ -6,6 +6,7 @@ extends Node2D
 @onready var contenedor_acciones: MarginContainer = $CanvasLayer/UI/ContenedorAcciones
 @onready var boton_apuntar: Button = $CanvasLayer/UI/ContenedorAcciones/HBoxContainer/BotonApuntar
 @onready var boton_terminar: Button = $CanvasLayer/UI/ContenedorAcciones/HBoxContainer/BotonTerminar
+@onready var indicador_cobertura: TextureButton = $CanvasLayer/UI/IndicadorCobertura
 @onready var pantalla_final: PanelContainer = $CanvasLayer/UI/PantallaFinal
 @onready var texto_resultado: Label = $CanvasLayer/UI/PantallaFinal/VBoxContainer/TextoResultado
 @onready var boton_reiniciar: Button = $CanvasLayer/UI/PantallaFinal/VBoxContainer/BotonReiniciar
@@ -22,6 +23,7 @@ const ICONO_ESCOPETA = preload("res://assets/iconos/escopeta.svg")
 const ICONO_GRANADA = preload("res://assets/iconos/granada.svg")
 
 var _unidad_hud: Node = null
+var _barril_escudo = null
 
 var ultima_unidad_activa: Node2D = null
 var pos_ultimo_impacto: Vector2 = Vector2.INF
@@ -69,6 +71,8 @@ func _ready() -> void:
 	
 	boton_apuntar.pressed.connect(_on_boton_apuntar_pressed)
 	boton_terminar.pressed.connect(_on_boton_terminar_pressed)
+	indicador_cobertura.pressed.connect(_on_cobertura_pressed)
+	indicador_cobertura.visible = false
 	boton_reiniciar.pressed.connect(_on_boton_reiniciar_pressed)
 	
 	ManejadorTurnos.iniciar_partida()
@@ -101,6 +105,9 @@ func _process(delta: float) -> void:
 		camara.global_position = camara.global_position.lerp(target_pos, 7.5 * delta)		
 	if is_instance_valid(activa) and activa is UnidadBase:
 		boton_apuntar.disabled = not activa.puede_apuntar()
+		_actualizar_indicador_cobertura(activa)
+	else:
+		indicador_cobertura.visible = false
 
 
 func _on_cambio_de_turno(nuevo_turno: String) -> void:
@@ -190,6 +197,40 @@ func _on_boton_apuntar_pressed() -> void:
 	var activa = ManejadorTurnos.unidad_activa
 	if is_instance_valid(activa) and activa is UnidadBase:
 		activa.cambiar_a_apuntado()
+
+func _on_cobertura_pressed() -> void:
+	var activa = ManejadorTurnos.unidad_activa
+	if is_instance_valid(activa) and is_instance_valid(_barril_escudo) and activa.has_method("ir_a_cubrirse"):
+		activa.ir_a_cubrirse(_barril_escudo)
+
+func _actualizar_indicador_cobertura(activa) -> void:
+	var puede: bool = activa.estado == UnidadBase.Estado.MOVIMIENTO and not activa.moviendo_a_destino and not activa.ya_movio
+	var barril = _barril_cobertura_objetivo(activa) if puede else null
+	if barril == null:
+		indicador_cobertura.visible = false
+		_barril_escudo = null
+		return
+	_barril_escudo = barril
+	indicador_cobertura.visible = true
+	var pantalla = get_viewport().get_canvas_transform() * (barril.global_position + Vector2(0, -34))
+	indicador_cobertura.position = pantalla - indicador_cobertura.size * 0.5
+
+func _barril_cobertura_objetivo(activa):
+	var calc := CalculadorRuta.new()
+	var mejor = null
+	var mejor_dist := INF
+	for barril in get_tree().get_nodes_in_group("barriles"):
+		if not is_instance_valid(barril):
+			continue
+		var d: float = activa.global_position.distance_to(barril.global_position)
+		var alcanzable: bool = d < 70.0
+		if not alcanzable:
+			var res = calc.calcular(activa.global_position, barril.global_position)
+			alcanzable = res.valida and res.distancia <= CalculadorRuta.DISTANCIA_CELESTE
+		if alcanzable and d < mejor_dist:
+			mejor_dist = d
+			mejor = barril
+	return mejor
 
 func _on_boton_terminar_pressed() -> void:
 	ManejadorTurnos.finalizar_accion_unidad_actual()

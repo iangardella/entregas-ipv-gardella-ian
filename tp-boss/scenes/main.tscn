@@ -13,7 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://duv7ysqet3ow3" path="res://assets/Platformer_Jungle Asset Pack/Background/BG1.png" id="11_bg1"]
 [ext_resource type="Texture2D" uid="uid://hvfkwqqj3ude" path="res://assets/iconos/pistola.svg" id="12_pistola"]
 [ext_resource type="Texture2D" uid="uid://c1r7o00pg3yjs" path="res://assets/iconos/escopeta.svg" id="13_escopeta"]
-[ext_resource type="Texture2D" uid="uid://ds4xj5rdyaa4t" path="res://assets/iconos/granada.svg" id="14_granada"]
+[ext_resource type="PackedScene" path="res://entities/barril.tscn" id="15_barril"]
+[ext_resource type="Texture2D" uid="uid://28m0v30uumme" path="res://assets/sprites/shield.png" id="16_shield"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1400, 40)
@@ -29,6 +30,9 @@ size = Vector2(80, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ladder"]
 size = Vector2(30, 140)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ladder_corta"]
+size = Vector2(30, 70)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_banner"]
 bg_color = Color(0.05, 0.12, 0.25, 0.85)
@@ -72,33 +76,33 @@ zoom = Vector2(1.2, 1.2)
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
-[node name="Fondo" type="Node2D" parent="."]
+[node name="Fondo" type="Node2D" parent="." unique_id=840921424]
 
-[node name="BG5" type="Sprite2D" parent="Fondo"]
+[node name="BG5" type="Sprite2D" parent="Fondo" unique_id=674207442]
 z_index = -105
 position = Vector2(576, 285)
 scale = Vector2(2.1, 2.1)
 texture = ExtResource("7_bg5")
 
-[node name="BG4" type="Sprite2D" parent="Fondo"]
+[node name="BG4" type="Sprite2D" parent="Fondo" unique_id=1819404294]
 z_index = -104
 position = Vector2(576, 285)
 scale = Vector2(2.1, 2.1)
 texture = ExtResource("8_bg4")
 
-[node name="BG3" type="Sprite2D" parent="Fondo"]
+[node name="BG3" type="Sprite2D" parent="Fondo" unique_id=1797646066]
 z_index = -103
 position = Vector2(576, 285)
 scale = Vector2(2.1, 2.1)
 texture = ExtResource("9_bg3")
 
-[node name="BG2" type="Sprite2D" parent="Fondo"]
+[node name="BG2" type="Sprite2D" parent="Fondo" unique_id=1465914803]
 z_index = -102
 position = Vector2(576, 285)
 scale = Vector2(2.1, 2.1)
 texture = ExtResource("10_bg2")
 
-[node name="BG1" type="Sprite2D" parent="Fondo"]
+[node name="BG1" type="Sprite2D" parent="Fondo" unique_id=1905397206]
 z_index = -101
 position = Vector2(576, 285)
 scale = Vector2(2.1, 2.1)
@@ -110,19 +114,19 @@ texture = ExtResource("11_bg1")
 position = Vector2(576, 500)
 collision_mask = 0
 
-[node name="Pasto" type="Sprite2D" parent="Nivel/Suelo"]
+[node name="Pasto" type="Sprite2D" parent="Nivel/Suelo" unique_id=106906791]
 texture_repeat = 2
 position = Vector2(-700, -20)
-centered = false
 texture = ExtResource("4_grass")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 1400, 16)
 
-[node name="Tierra" type="Sprite2D" parent="Nivel/Suelo"]
+[node name="Tierra" type="Sprite2D" parent="Nivel/Suelo" unique_id=481517090]
 texture_repeat = 2
 position = Vector2(-700, -4)
-centered = false
 texture = ExtResource("5_dirt")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 1400, 24)
 
@@ -133,20 +137,20 @@ shape = SubResource("RectangleShape2D_floor")
 position = Vector2(576, 50)
 collision_mask = 0
 
-[node name="Tierra" type="Sprite2D" parent="Nivel/Techo"]
+[node name="Tierra" type="Sprite2D" parent="Nivel/Techo" unique_id=1842132914]
 texture_repeat = 2
 position = Vector2(-700, -20)
-centered = false
 texture = ExtResource("5_dirt")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 1400, 40)
 
-[node name="Follaje" type="Sprite2D" parent="Nivel/Techo"]
+[node name="Follaje" type="Sprite2D" parent="Nivel/Techo" unique_id=1090160334]
 texture_repeat = 2
 position = Vector2(-700, 4)
+texture = ExtResource("4_grass")
 centered = false
 flip_v = true
-texture = ExtResource("4_grass")
 region_enabled = true
 region_rect = Rect2(0, 0, 1400, 16)
 
@@ -157,11 +161,11 @@ shape = SubResource("RectangleShape2D_floor")
 position = Vector2(-70, 275)
 collision_mask = 0
 
-[node name="Tierra" type="Sprite2D" parent="Nivel/ParedIzquierda"]
+[node name="Tierra" type="Sprite2D" parent="Nivel/ParedIzquierda" unique_id=2104242641]
 texture_repeat = 2
 position = Vector2(-20, -350)
-centered = false
 texture = ExtResource("5_dirt")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 40, 700)
 
@@ -172,11 +176,11 @@ shape = SubResource("RectangleShape2D_wall")
 position = Vector2(1220, 275)
 collision_mask = 0
 
-[node name="Tierra" type="Sprite2D" parent="Nivel/ParedDerecha"]
+[node name="Tierra" type="Sprite2D" parent="Nivel/ParedDerecha" unique_id=651371232]
 texture_repeat = 2
 position = Vector2(-20, -350)
-centered = false
 texture = ExtResource("5_dirt")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 40, 700)
 
@@ -187,19 +191,19 @@ shape = SubResource("RectangleShape2D_wall")
 position = Vector2(250, 360)
 collision_mask = 0
 
-[node name="Pasto" type="Sprite2D" parent="Nivel/Plataforma1"]
+[node name="Pasto" type="Sprite2D" parent="Nivel/Plataforma1" unique_id=1651679678]
 texture_repeat = 2
 position = Vector2(-150, -10)
-centered = false
 texture = ExtResource("4_grass")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 300, 16)
 
-[node name="Tierra" type="Sprite2D" parent="Nivel/Plataforma1"]
+[node name="Tierra" type="Sprite2D" parent="Nivel/Plataforma1" unique_id=2128861843]
 texture_repeat = 2
 position = Vector2(-150, 6)
-centered = false
 texture = ExtResource("5_dirt")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 300, 4)
 
@@ -210,19 +214,19 @@ shape = SubResource("RectangleShape2D_plat")
 position = Vector2(900, 360)
 collision_mask = 0
 
-[node name="Pasto" type="Sprite2D" parent="Nivel/Plataforma2"]
+[node name="Pasto" type="Sprite2D" parent="Nivel/Plataforma2" unique_id=1359996639]
 texture_repeat = 2
 position = Vector2(-150, -10)
-centered = false
 texture = ExtResource("4_grass")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 300, 16)
 
-[node name="Tierra" type="Sprite2D" parent="Nivel/Plataforma2"]
+[node name="Tierra" type="Sprite2D" parent="Nivel/Plataforma2" unique_id=1293274922]
 texture_repeat = 2
 position = Vector2(-150, 6)
-centered = false
 texture = ExtResource("5_dirt")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 300, 4)
 
@@ -233,19 +237,19 @@ shape = SubResource("RectangleShape2D_plat")
 position = Vector2(576, 230)
 collision_mask = 0
 
-[node name="Pasto" type="Sprite2D" parent="Nivel/PlataformaCentral"]
+[node name="Pasto" type="Sprite2D" parent="Nivel/PlataformaCentral" unique_id=618226299]
 texture_repeat = 2
 position = Vector2(-150, -10)
-centered = false
 texture = ExtResource("4_grass")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 300, 16)
 
-[node name="Tierra" type="Sprite2D" parent="Nivel/PlataformaCentral"]
+[node name="Tierra" type="Sprite2D" parent="Nivel/PlataformaCentral" unique_id=2107089003]
 texture_repeat = 2
 position = Vector2(-150, 6)
-centered = false
 texture = ExtResource("5_dirt")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 300, 4)
 
@@ -256,19 +260,19 @@ shape = SubResource("RectangleShape2D_plat")
 position = Vector2(70, 430)
 collision_mask = 0
 
-[node name="Pasto" type="Sprite2D" parent="Nivel/PasoIzquierdo"]
+[node name="Pasto" type="Sprite2D" parent="Nivel/PasoIzquierdo" unique_id=1956940648]
 texture_repeat = 2
 position = Vector2(-40, -10)
-centered = false
 texture = ExtResource("4_grass")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 80, 16)
 
-[node name="Tierra" type="Sprite2D" parent="Nivel/PasoIzquierdo"]
+[node name="Tierra" type="Sprite2D" parent="Nivel/PasoIzquierdo" unique_id=1596174385]
 texture_repeat = 2
 position = Vector2(-40, 6)
-centered = false
 texture = ExtResource("5_dirt")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 80, 4)
 
@@ -279,19 +283,19 @@ shape = SubResource("RectangleShape2D_step")
 position = Vector2(1080, 430)
 collision_mask = 0
 
-[node name="Pasto" type="Sprite2D" parent="Nivel/PasoDerecho"]
+[node name="Pasto" type="Sprite2D" parent="Nivel/PasoDerecho" unique_id=1038092848]
 texture_repeat = 2
 position = Vector2(-40, -10)
-centered = false
 texture = ExtResource("4_grass")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 80, 16)
 
-[node name="Tierra" type="Sprite2D" parent="Nivel/PasoDerecho"]
+[node name="Tierra" type="Sprite2D" parent="Nivel/PasoDerecho" unique_id=2111959254]
 texture_repeat = 2
 position = Vector2(-40, 6)
-centered = false
 texture = ExtResource("5_dirt")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 80, 4)
 
@@ -302,19 +306,19 @@ shape = SubResource("RectangleShape2D_step")
 position = Vector2(410, 295)
 collision_mask = 0
 
-[node name="Pasto" type="Sprite2D" parent="Nivel/PasoCentralIzquierdo"]
+[node name="Pasto" type="Sprite2D" parent="Nivel/PasoCentralIzquierdo" unique_id=685718406]
 texture_repeat = 2
 position = Vector2(-40, -10)
-centered = false
 texture = ExtResource("4_grass")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 80, 16)
 
-[node name="Tierra" type="Sprite2D" parent="Nivel/PasoCentralIzquierdo"]
+[node name="Tierra" type="Sprite2D" parent="Nivel/PasoCentralIzquierdo" unique_id=629787141]
 texture_repeat = 2
 position = Vector2(-40, 6)
-centered = false
 texture = ExtResource("5_dirt")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 80, 4)
 
@@ -325,19 +329,19 @@ shape = SubResource("RectangleShape2D_step")
 position = Vector2(742, 295)
 collision_mask = 0
 
-[node name="Pasto" type="Sprite2D" parent="Nivel/PasoCentralDerecho"]
+[node name="Pasto" type="Sprite2D" parent="Nivel/PasoCentralDerecho" unique_id=2088563280]
 texture_repeat = 2
 position = Vector2(-40, -10)
-centered = false
 texture = ExtResource("4_grass")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 80, 16)
 
-[node name="Tierra" type="Sprite2D" parent="Nivel/PasoCentralDerecho"]
+[node name="Tierra" type="Sprite2D" parent="Nivel/PasoCentralDerecho" unique_id=1862832412]
 texture_repeat = 2
 position = Vector2(-40, 6)
-centered = false
 texture = ExtResource("5_dirt")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 80, 4)
 
@@ -349,11 +353,11 @@ position = Vector2(100, 420)
 collision_layer = 0
 collision_mask = 0
 
-[node name="Liana" type="Sprite2D" parent="Nivel/EscaleraIzquierda"]
+[node name="Liana" type="Sprite2D" parent="Nivel/EscaleraIzquierda" unique_id=1453482332]
 texture_repeat = 2
 position = Vector2(-12, -70)
-centered = false
 texture = ExtResource("6_liana")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 24, 140)
 
@@ -365,16 +369,80 @@ position = Vector2(1050, 420)
 collision_layer = 0
 collision_mask = 0
 
-[node name="Liana" type="Sprite2D" parent="Nivel/EscaleraDerecha"]
+[node name="Liana" type="Sprite2D" parent="Nivel/EscaleraDerecha" unique_id=283442658]
 texture_repeat = 2
 position = Vector2(-12, -70)
-centered = false
 texture = ExtResource("6_liana")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 24, 140)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/EscaleraDerecha" unique_id=661431154]
 shape = SubResource("RectangleShape2D_ladder")
+
+[node name="EscaleraCentral" type="Area2D" parent="Nivel" unique_id=1152732390 groups=["escaleras"]]
+position = Vector2(378, 322)
+collision_layer = 0
+collision_mask = 0
+
+[node name="Liana" type="Sprite2D" parent="Nivel/EscaleraCentral" unique_id=251557111]
+texture_repeat = 2
+position = Vector2(-12, -35)
+texture = ExtResource("6_liana")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 24, 70)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/EscaleraCentral" unique_id=790459898]
+shape = SubResource("RectangleShape2D_ladder_corta")
+
+[node name="EscaleraCentral" type="Area2D" parent="Nivel/EscaleraCentral" unique_id=193336780 groups=["escaleras"]]
+position = Vector2(57, -67)
+collision_layer = 0
+collision_mask = 0
+
+[node name="Liana" type="Sprite2D" parent="Nivel/EscaleraCentral/EscaleraCentral" unique_id=1672911885]
+texture_repeat = 2
+position = Vector2(-12, -35)
+texture = ExtResource("6_liana")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 24, 70)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/EscaleraCentral/EscaleraCentral" unique_id=399422124]
+shape = SubResource("RectangleShape2D_ladder_corta")
+
+[node name="EscaleraDerSup" type="Area2D" parent="Nivel" unique_id=1856611548 groups=["escaleras"]]
+position = Vector2(711, 255)
+collision_layer = 0
+collision_mask = 0
+
+[node name="Liana" type="Sprite2D" parent="Nivel/EscaleraDerSup" unique_id=1741497078]
+texture_repeat = 2
+position = Vector2(-12, -35)
+texture = ExtResource("6_liana")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 24, 70)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/EscaleraDerSup" unique_id=1461636763]
+shape = SubResource("RectangleShape2D_ladder_corta")
+
+[node name="EscaleraDerSup" type="Area2D" parent="Nivel/EscaleraDerSup" unique_id=1253413141 groups=["escaleras"]]
+position = Vector2(55, 65)
+collision_layer = 0
+collision_mask = 0
+
+[node name="Liana" type="Sprite2D" parent="Nivel/EscaleraDerSup/EscaleraDerSup" unique_id=1739928912]
+texture_repeat = 2
+position = Vector2(-12, -35)
+texture = ExtResource("6_liana")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 24, 70)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/EscaleraDerSup/EscaleraDerSup" unique_id=451209590]
+shape = SubResource("RectangleShape2D_ladder_corta")
 
 [node name="Jugadores" type="Node2D" parent="." unique_id=136100887]
 
@@ -396,6 +464,14 @@ tipo_arma = 1
 position = Vector2(1000, 460)
 tipo_arma = 2
 
+[node name="Barriles" type="Node2D" parent="." unique_id=1951405027]
+
+[node name="Barril1" parent="Barriles" unique_id=83851099 instance=ExtResource("15_barril")]
+position = Vector2(440, 462)
+
+[node name="Barril2" parent="Barriles" unique_id=1000591573 instance=ExtResource("15_barril")]
+position = Vector2(720, 462)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=558512444]
 
 [node name="UI" type="Control" parent="CanvasLayer" unique_id=914628928]
@@ -408,6 +484,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="BannerTurno" type="PanelContainer" parent="CanvasLayer/UI" unique_id=1749118874]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -495,7 +572,7 @@ size_flags_horizontal = 4
 focus_mode = 0
 text = "Reiniciar Partida"
 
-[node name="PanelPersonaje" type="PanelContainer" parent="CanvasLayer/UI"]
+[node name="PanelPersonaje" type="PanelContainer" parent="CanvasLayer/UI" unique_id=1532647291]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -507,21 +584,32 @@ offset_bottom = -16.0
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_hud")
 
-[node name="HBoxPersonaje" type="HBoxContainer" parent="CanvasLayer/UI/PanelPersonaje"]
+[node name="HBoxPersonaje" type="HBoxContainer" parent="CanvasLayer/UI/PanelPersonaje" unique_id=1451285549]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Swatch" type="ColorRect" parent="CanvasLayer/UI/PanelPersonaje/HBoxPersonaje"]
+[node name="Swatch" type="ColorRect" parent="CanvasLayer/UI/PanelPersonaje/HBoxPersonaje" unique_id=1182916220]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 color = Color(0.25, 0.65, 1, 1)
 
-[node name="LabelPersonaje" type="Label" parent="CanvasLayer/UI/PanelPersonaje/HBoxPersonaje"]
+[node name="LabelPersonaje" type="Label" parent="CanvasLayer/UI/PanelPersonaje/HBoxPersonaje" unique_id=128812300]
 layout_mode = 2
 text = "JUGADOR 1"
 vertical_alignment = 1
 
-[node name="ContenedorArmas" type="PanelContainer" parent="CanvasLayer/UI"]
+[node name="IndicadorCobertura" type="TextureButton" parent="CanvasLayer/UI" unique_id=771122334]
+visible = false
+custom_minimum_size = Vector2(34, 38)
+layout_mode = 0
+offset_right = 34.0
+offset_bottom = 38.0
+focus_mode = 0
+texture_normal = ExtResource("16_shield")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ContenedorArmas" type="PanelContainer" parent="CanvasLayer/UI" unique_id=1924602788]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -536,28 +624,28 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_hud")
 
-[node name="VBoxArmas" type="VBoxContainer" parent="CanvasLayer/UI/ContenedorArmas"]
+[node name="VBoxArmas" type="VBoxContainer" parent="CanvasLayer/UI/ContenedorArmas" unique_id=1991100818]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="LabelArma" type="Label" parent="CanvasLayer/UI/ContenedorArmas/VBoxArmas"]
+[node name="LabelArma" type="Label" parent="CanvasLayer/UI/ContenedorArmas/VBoxArmas" unique_id=1412201476]
 layout_mode = 2
 text = "Pistola"
 horizontal_alignment = 1
 
-[node name="HBoxArmas" type="HBoxContainer" parent="CanvasLayer/UI/ContenedorArmas/VBoxArmas"]
+[node name="HBoxArmas" type="HBoxContainer" parent="CanvasLayer/UI/ContenedorArmas/VBoxArmas" unique_id=1841119513]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="BotonPistola" type="TextureButton" parent="CanvasLayer/UI/ContenedorArmas/VBoxArmas/HBoxArmas"]
+[node name="BotonPistola" type="TextureButton" parent="CanvasLayer/UI/ContenedorArmas/VBoxArmas/HBoxArmas" unique_id=1237006996]
 custom_minimum_size = Vector2(58, 58)
 layout_mode = 2
 texture_normal = ExtResource("12_pistola")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="BotonPrincipal" type="TextureButton" parent="CanvasLayer/UI/ContenedorArmas/VBoxArmas/HBoxArmas"]
+[node name="BotonPrincipal" type="TextureButton" parent="CanvasLayer/UI/ContenedorArmas/VBoxArmas/HBoxArmas" unique_id=1312905155]
 custom_minimum_size = Vector2(58, 58)
 layout_mode = 2
 texture_normal = ExtResource("13_escopeta")

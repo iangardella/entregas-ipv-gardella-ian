@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://entities/barril.gd" id="1_barril"]
+[ext_resource type="Texture2D" uid="uid://desfws5iaryed" path="res://assets/sprites/barril.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_barril"]
+size = Vector2(24, 36)
+
+[node name="Barril" type="StaticBody2D"]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_barril")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_barril")

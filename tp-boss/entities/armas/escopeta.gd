@@ -21,7 +21,7 @@ func disparar(unidad, inicio: Vector2, direccion: Vector2) -> float:
 		var d = Vector2.from_angle(base_ang + t * ap)
 		var bala = EscenaBala.instantiate()
 		unidad.get_parent().add_child(bala)
-		bala.lanzar(inicio, d, int(round(unidad.danio_base * 0.5)), unidad, EMPUJE, ALCANCE, 1)
+		bala.lanzar(inicio, d, int(round(unidad.danio_base * 0.5)), unidad, EMPUJE, ALCANCE, 1, 2)
 	return 0.8
 
 

@@ -7,6 +7,7 @@ const EscenaEfectoMuerte = preload("res://entities/efecto_muerte.tscn")
 
 const GRAVEDAD = 980.0
 const FRICCION_EMPUJE = 700.0
+const RANGO_COBERTURA := 60.0
 
 enum Estado { INACTIVO, MOVIMIENTO, APUNTADO, ACCIONADO }
 var estado: Estado = Estado.INACTIVO
@@ -16,6 +17,8 @@ enum ArmaTipo { PISTOLA, ESCOPETA, GRANADA }
 @export var municion_principal: int = 2
 var usos_principal_restantes: int = 0
 var arma_activa: ArmaTipo = ArmaTipo.PISTOLA
+var cubierto: bool = false
+var barril_cubierto: Node = null
 
 # Instancias de las armas (patron Strategy): la unidad les delega disparar/mira.
 var _arma_secundaria: Arma
@@ -63,7 +66,7 @@ func _ready() -> void:
 func inicializar() -> void:
 	pass
 
-# Crea el arma principal de esta unidad segun tipo_arma (null si solo usa pistola).
+
 func _crear_arma_principal() -> Arma:
 	match tipo_arma:
 		ArmaTipo.ESCOPETA:
@@ -73,7 +76,6 @@ func _crear_arma_principal() -> Arma:
 		_:
 			return null
 
-# Devuelve el arma actualmente seleccionada (secundaria o principal).
 func _arma_actual() -> Arma:
 	if arma_activa != ArmaTipo.PISTOLA and _arma_principal != null:
 		return _arma_principal
@@ -82,6 +84,8 @@ func _arma_actual() -> Arma:
 func activar() -> void:
 	estado = Estado.MOVIMIENTO
 	arma_activa = ArmaTipo.PISTOLA
+	cubierto = false
+	barril_cubierto = null
 	actualizar_color_visual(true)
 	arma_cambiada.emit(arma_activa, tipo_arma, usos_principal_restantes)
 	_actualizar_marcador()
@@ -112,7 +116,6 @@ func actualizar_color_visual(activo: bool) -> void:
 	if visual:
 		visual.modulate = color_activo if activo else color_inactivo
 
-# Punto desde donde salen los proyectiles (corregido si el cano esta pasado una pared).
 func _punto_inicio_disparo() -> Vector2:
 	var inicio = muzzle.global_position
 	var space_state = get_world_2d().direct_space_state
@@ -136,6 +139,15 @@ func disparar() -> void:
 	if arma_activa != ArmaTipo.PISTOLA:
 		usos_principal_restantes -= 1
 	arma_cambiada.emit(arma_activa, tipo_arma, usos_principal_restantes)
+
+	var barril_cob = barril_cercano()
+	if barril_cob != null:
+		cubierto = true
+		barril_cubierto = barril_cob
+		var lado_cob := signf(global_position.x - barril_cob.global_position.x)
+		if lado_cob != 0.0:
+			visual.flip_h = lado_cob > 0.0
+
 	_programar_fin_disparo(espera)
 
 func _programar_fin_disparo(espera: float) -> void:
@@ -148,6 +160,38 @@ func aplicar_empuje(desde: Vector2, fuerza: float) -> void:
 		dir = Vector2.RIGHT
 	dir = dir.normalized()
 	velocity = Vector2(dir.x * fuerza, -fuerza * 0.3)
+
+func barril_cercano() -> Node:
+	var mejor: Node = null
+	var mejor_dist := RANGO_COBERTURA
+	for b in get_tree().get_nodes_in_group("barriles"):
+		if is_instance_valid(b):
+			var dd := global_position.distance_to(b.global_position)
+			if dd < mejor_dist:
+				mejor_dist = dd
+				mejor = b
+	return mejor
+
+func puede_cubrirse() -> bool:
+	return estado == Estado.MOVIMIENTO and barril_cercano() != null
+
+func cubrirse(barril_forzado = null) -> void:
+	var b = barril_forzado if barril_forzado != null else barril_cercano()
+	if b == null or not is_instance_valid(b):
+		return
+	estado = Estado.ACCIONADO
+	mira_laser.visible = false
+	mira_area.visible = false
+	mira_relleno.visible = false
+	cubierto = true
+	barril_cubierto = b
+	var lado := signf(global_position.x - b.global_position.x)
+	if lado == 0.0:
+		lado = 1.0
+	global_position.x = b.global_position.x + lado * 28.0
+	visual.flip_h = lado > 0.0
+	_actualizar_marcador()
+	_programar_fin_disparo(0.4)
 
 func recibir_danio(cantidad: int) -> void:
 	vida = max(0, vida - cantidad)
@@ -193,6 +237,9 @@ func _physics_process(delta: float) -> void:
 		velocity.y += GRAVEDAD * delta
 	if estado == Estado.INACTIVO:
 		velocity.x = move_toward(velocity.x, 0.0, FRICCION_EMPUJE * delta)
+	if cubierto and not is_instance_valid(barril_cubierto):
+		cubierto = false
+		barril_cubierto = null
 
 	procesar_fisicas(delta)
 	move_and_slide()
@@ -204,6 +251,9 @@ func procesar_fisicas(_delta: float) -> void:
 
 func _actualizar_animacion() -> void:
 	if not (visual is AnimatedSprite2D):
+		return
+	if cubierto:
+		visual.play(&"agachado")
 		return
 	if estado == Estado.APUNTADO:
 		return

@@ -11,10 +11,11 @@ var tirador: Node2D = null
 var empuje: float = 0.0
 var distancia_max: float = -1.0
 var recorrido: float = 0.0
+var danio_barril: int = 1
 
 signal impacto_resuelto
 
-func lanzar(pos_inicio: Vector2, dir_inicio: Vector2, valor_danio: int, unidad_tirador: Node2D, valor_empuje: float = 0.0, valor_distancia: float = -1.0, valor_rebotes: int = 3) -> void:
+func lanzar(pos_inicio: Vector2, dir_inicio: Vector2, valor_danio: int, unidad_tirador: Node2D, valor_empuje: float = 0.0, valor_distancia: float = -1.0, valor_rebotes: int = 3, valor_danio_barril: int = 1) -> void:
 	global_position = pos_inicio
 	direccion = dir_inicio.normalized()
 	danio = valor_danio 
@@ -22,6 +23,7 @@ func lanzar(pos_inicio: Vector2, dir_inicio: Vector2, valor_danio: int, unidad_t
 	empuje = valor_empuje
 	distancia_max = valor_distancia
 	max_rebotes = valor_rebotes
+	danio_barril = valor_danio_barril
 	rotation = direccion.angle()
 
 func _ready() -> void:
@@ -41,6 +43,11 @@ func _physics_process(delta: float) -> void:
 		var normal = raycast.get_collision_normal()
 		global_position = punto_colision
 		
+		if is_instance_valid(colisionador) and colisionador.has_method("recibir_danio_barril"):
+			colisionador.recibir_danio_barril(danio_barril)
+			_finalizar()
+			return
+
 		if is_instance_valid(colisionador) and colisionador.has_method("recibir_danio"):
 			colisionador.recibir_danio(danio)
 			if empuje > 0.0 and colisionador.has_method("aplicar_empuje"):

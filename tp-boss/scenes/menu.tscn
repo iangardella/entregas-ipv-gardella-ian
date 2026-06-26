@@ -1,14 +1,18 @@
 [gd_scene format=3 uid="uid://rh3puhldgrlh"]
 
-[ext_resource type="Script" path="res://scenes/menu.gd" id="1_menu"]
+[ext_resource type="Script" uid="uid://d1rnxxcvclikd" path="res://scenes/menu.gd" id="1_menu"]
 [ext_resource type="Texture2D" uid="uid://cwp8c8gldm4hr" path="res://assets/Platformer_Jungle Asset Pack/Background/BG5.png" id="2_bg5"]
 [ext_resource type="Texture2D" uid="uid://duv7ysqet3ow3" path="res://assets/Platformer_Jungle Asset Pack/Background/BG1.png" id="3_bg1"]
+[ext_resource type="Theme" path="res://scenes/menu_tema.tres" id="4_tema"]
 
 [sub_resource type="LabelSettings" id="LS_titulo"]
-font_size = 56
-font_color = Color(0.86, 0.96, 0.78, 1)
-outline_size = 10
-outline_color = Color(0, 0.06, 0, 1)
+font_size = 66
+font_color = Color(0.9, 0.98, 0.72, 1)
+outline_size = 12
+outline_color = Color(0, 0.05, 0, 1)
+shadow_size = 6
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_offset = Vector2(3, 5)
 
 [sub_resource type="LabelSettings" id="LS_sub"]
 font_size = 18
@@ -39,6 +43,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4_tema")
 script = ExtResource("1_menu")
 
 [node name="Fondo" type="TextureRect" parent="." unique_id=484169770]
@@ -95,6 +100,7 @@ label_settings = SubResource("LS_titulo")
 horizontal_alignment = 1
 
 [node name="Subtitulo" type="Label" parent="CentroVBox" unique_id=1451357073]
+visible = false
 layout_mode = 2
 text = "Combate táctico por turnos"
 label_settings = SubResource("LS_sub")

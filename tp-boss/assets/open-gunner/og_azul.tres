@@ -1,24 +1,33 @@
-[gd_resource type="SpriteFrames" format=3 uid="uid://by0ee41gv1nvp"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://snxtphryar4p"]
 
 [ext_resource type="Texture2D" uid="uid://cd15mfmio8jqd" path="res://assets/open-gunner/frames/hero_azul.png" id="1_atlas"]
+[ext_resource type="Texture2D" uid="uid://frej3lqa5lpy" path="res://assets/open-gunner/frames/duck_azul.png" id="2_duck"]
 
-[sub_resource type="AtlasTexture" id="a20"]
+[sub_resource type="AtlasTexture" id="a16"]
+atlas = ExtResource("2_duck")
+region = Rect2(0, 0, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a17"]
+atlas = ExtResource("2_duck")
+region = Rect2(51, 0, 51, 58)
+
+[sub_resource type="AtlasTexture" id="a22"]
 atlas = ExtResource("1_atlas")
 region = Rect2(204, 174, 51, 58)
 
-[sub_resource type="AtlasTexture" id="a19"]
+[sub_resource type="AtlasTexture" id="a21"]
 atlas = ExtResource("1_atlas")
 region = Rect2(153, 174, 51, 58)
 
-[sub_resource type="AtlasTexture" id="a16"]
+[sub_resource type="AtlasTexture" id="a18"]
 atlas = ExtResource("1_atlas")
 region = Rect2(0, 174, 51, 58)
 
-[sub_resource type="AtlasTexture" id="a17"]
+[sub_resource type="AtlasTexture" id="a19"]
 atlas = ExtResource("1_atlas")
 region = Rect2(51, 174, 51, 58)
 
-[sub_resource type="AtlasTexture" id="a18"]
+[sub_resource type="AtlasTexture" id="a20"]
 atlas = ExtResource("1_atlas")
 region = Rect2(102, 174, 51, 58)
 
@@ -90,7 +99,18 @@ region = Rect2(153, 116, 51, 58)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("a20")
+"texture": SubResource("a16")
+}, {
+"duration": 1.0,
+"texture": SubResource("a17")
+}],
+"loop": true,
+"name": &"agachado",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a22")
 }],
 "loop": false,
 "name": &"aim_abajo",
@@ -98,7 +118,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("a19")
+"texture": SubResource("a21")
 }],
 "loop": false,
 "name": &"aim_abajodiag",
@@ -106,7 +126,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("a16")
+"texture": SubResource("a18")
 }],
 "loop": false,
 "name": &"aim_arriba",
@@ -114,7 +134,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("a17")
+"texture": SubResource("a19")
 }],
 "loop": false,
 "name": &"aim_arribadiag",
@@ -122,7 +142,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("a18")
+"texture": SubResource("a20")
 }],
 "loop": false,
 "name": &"aim_horizontal",

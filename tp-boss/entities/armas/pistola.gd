@@ -2,6 +2,7 @@ class_name Pistola
 extends Arma
 
 const EscenaBala = preload("res://entities/bala.tscn")
+const REBOTES := 2
 
 
 func _init() -> void:
@@ -11,7 +12,7 @@ func _init() -> void:
 func disparar(unidad, inicio: Vector2, direccion: Vector2) -> float:
 	var bala = EscenaBala.instantiate()
 	unidad.get_parent().add_child(bala)
-	bala.lanzar(inicio, direccion, int(round(unidad.danio_base * 0.6)), unidad, 0.0, -1.0, 3)
+	bala.lanzar(inicio, direccion, int(round(unidad.danio_base * 0.6)), unidad, 0.0, -1.0, REBOTES, 1)
 	return 0.8
 
 
@@ -39,7 +40,7 @@ func _trayectoria_rebote(unidad, inicio: Vector2, direccion: Vector2) -> Array[V
 
 	puntos.append(inicio)
 	var dir_actual = direccion
-	var max_rebotes = 3
+	var max_rebotes = REBOTES
 
 	for i in range(max_rebotes + 1):
 		var destino = pos_actual + dir_actual * 1500.0

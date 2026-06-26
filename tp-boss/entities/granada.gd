@@ -63,4 +63,9 @@ func _explotar() -> void:
 					u.recibir_danio(int(round(danio * (0.6 + 0.4 * factor))))
 				if u.has_method("aplicar_empuje"):
 					u.aplicar_empuje(global_position, FUERZA_EMPUJE)
+
+	for b in get_tree().get_nodes_in_group("barriles"):
+		if is_instance_valid(b) and global_position.distance_to(b.global_position) <= RADIO_EXPLOSION:
+			if b.has_method("recibir_danio_barril"):
+				b.recibir_danio_barril(2)
 	queue_free()

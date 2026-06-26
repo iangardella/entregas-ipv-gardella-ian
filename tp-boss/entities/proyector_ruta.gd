@@ -28,12 +28,16 @@ func _physics_process(_delta: float) -> void:
 	_detector.actualizar_excepciones(get_tree())
 	_calcular_preview()
 
-	if _ruta_valida and _distancia_preview <= CalculadorRuta.DISTANCIA_CELESTE:
-		if Input.is_action_just_pressed("click_disparar"):
-			var es_naranja = _distancia_preview <= CalculadorRuta.DISTANCIA_NARANJA
-			ruta_seleccionada.emit(_ruta_preview, _distancia_preview, _destino_preview, es_naranja)
-
 	queue_redraw()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not _puede_proyectar():
+		return
+	if not _ruta_valida or _distancia_preview > CalculadorRuta.DISTANCIA_CELESTE:
+		return
+	if event.is_action_pressed("click_disparar"):
+		var es_naranja = _distancia_preview <= CalculadorRuta.DISTANCIA_NARANJA
+		ruta_seleccionada.emit(_ruta_preview, _distancia_preview, _destino_preview, es_naranja)
 
 func _draw() -> void:
 	if not _puede_proyectar():
@@ -52,6 +56,7 @@ func _puede_proyectar() -> bool:
 	return is_instance_valid(jugador) \
 		and jugador.estado == jugador.Estado.MOVIMIENTO \
 		and not jugador.moviendo_a_destino \
+		and not jugador.ya_movio \
 		and jugador.is_on_floor() \
 		and not jugador.fin_turno_iniciado
 

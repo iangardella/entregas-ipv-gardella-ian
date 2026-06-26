@@ -5,6 +5,9 @@ extends UnidadBase
 var fin_turno_iniciado: bool = false
 var moviendo_a_destino: bool = false
 var es_movimiento_naranja: bool = true
+var ya_movio: bool = false
+var cubrir_al_llegar: bool = false
+var barril_objetivo: Node = null
 var puntos_ruta: PackedVector2Array = []
 var indice_ruta: int = 0
 @onready var proyector: ProyectorRuta = $ProyectorRuta
@@ -27,6 +30,9 @@ func activar() -> void:
 	super.activar()
 	fin_turno_iniciado = false
 	moviendo_a_destino = false
+	ya_movio = false
+	cubrir_al_llegar = false
+	barril_objetivo = null
 	if is_instance_valid(proyector):
 		proyector.actualizar_zonas_resaltadas()
 
@@ -60,6 +66,13 @@ func procesar_fisicas(delta: float) -> void:
 
 func manejar_movimiento(delta: float) -> void:
 	if moviendo_a_destino:
+		if cubrir_al_llegar and is_instance_valid(barril_objetivo) and global_position.distance_to(barril_objetivo.global_position) < 45.0:
+			moviendo_a_destino = false
+			ya_movio = true
+			cubrir_al_llegar = false
+			cubrirse(barril_objetivo)
+			barril_objetivo = null
+			return
 		if indice_ruta < puntos_ruta.size():
 			var target = puntos_ruta[indice_ruta]
 			var target_centro = Vector2(target.x, target.y - 16.0)
@@ -88,10 +101,12 @@ func manejar_movimiento(delta: float) -> void:
 			velocity.y = 0
 			collision_mask = 1
 			moviendo_a_destino = false
-			
-			if es_movimiento_naranja:
-				cambiar_a_apuntado()
-			else:
+			ya_movio = true
+			if cubrir_al_llegar:
+				cubrir_al_llegar = false
+				cubrirse(barril_objetivo)
+				barril_objetivo = null
+			elif not es_movimiento_naranja:
 				iniciar_fin_turno_sprint()
 			
 	else:
@@ -125,8 +140,6 @@ func manejar_apuntado(_delta: float) -> void:
 
 	mira_laser.visible = true
 	actualizar_mira(dir_apuntado)
-	
-	# El disparo se maneja en _unhandled_input para no disparar al tocar la HUD.
 
 
 func _aplicar_pose_apuntado(dir: Vector2) -> void:
@@ -159,8 +172,32 @@ func obtener_punto_camara() -> Vector2:
 		return global_position.lerp(get_global_mouse_position(), 0.35)
 	return global_position
 
+func ir_a_cubrirse(barril) -> void:
+	if not is_instance_valid(barril):
+		return
+	if global_position.distance_to(barril.global_position) < 70.0:
+		cubrirse(barril)
+		return
+	var lado := signf(global_position.x - barril.global_position.x)
+	if lado == 0.0:
+		lado = 1.0
+	var objetivo_pos: Vector2 = barril.global_position + Vector2(lado * 34.0, 0.0)
+	var calc := CalculadorRuta.new()
+	var res = calc.calcular(global_position, objetivo_pos)
+	if not res.valida:
+		cubrirse(barril)
+		return
+	puntos_ruta = res.path
+	indice_ruta = 1
+	moviendo_a_destino = true
+	es_movimiento_naranja = res.distancia <= CalculadorRuta.DISTANCIA_NARANJA
+	cubrir_al_llegar = true
+	barril_objetivo = barril
+
 func puede_apuntar() -> bool:
-	return estado == Estado.MOVIMIENTO
+	if estado != Estado.MOVIMIENTO or moviendo_a_destino:
+		return false
+	return (not ya_movio) or es_movimiento_naranja
 
 func _morir() -> void:
 	RegistroUnidades.remover(self, _nombre_equipo())
