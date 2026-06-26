@@ -1,6 +1,5 @@
 extends Sprite2D
 
-# Explosion de la granada: estrella naranja que crece y se desvanece.
 func _ready() -> void:
 	z_index = 50
 	modulate = Color(1.0, 0.6, 0.2, 1.0)

@@ -17,7 +17,6 @@ func recibir_danio_barril(cantidad: int) -> void:
 	if vida <= 0:
 		_romper()
 	elif is_instance_valid(sprite):
-		# parpadeo de dano
 		sprite.modulate = Color(1.6, 1.2, 1.2)
 		var t := create_tween()
 		t.tween_property(sprite, "modulate", Color(1, 1, 1), 0.2)

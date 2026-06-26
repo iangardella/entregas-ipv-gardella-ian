@@ -7,7 +7,6 @@ const EscenaEfectoMuerte = preload("res://entities/efecto_muerte.tscn")
 
 const GRAVEDAD = 980.0
 const FRICCION_EMPUJE = 700.0
-const RANGO_COBERTURA := 60.0
 
 enum Estado { INACTIVO, MOVIMIENTO, APUNTADO, ACCIONADO }
 var estado: Estado = Estado.INACTIVO
@@ -15,14 +14,20 @@ var estado: Estado = Estado.INACTIVO
 enum ArmaTipo { PISTOLA, ESCOPETA, GRANADA }
 @export var tipo_arma: ArmaTipo = ArmaTipo.PISTOLA
 @export var municion_principal: int = 2
-var usos_principal_restantes: int = 0
-var arma_activa: ArmaTipo = ArmaTipo.PISTOLA
-var cubierto: bool = false
-var barril_cubierto: Node = null
 
-# Instancias de las armas (patron Strategy): la unidad les delega disparar/mira.
-var _arma_secundaria: Arma
-var _arma_principal: Arma
+var _armamento: Armamento
+var _cobertura: Cobertura
+
+var cubierto: bool:
+	get:
+		return _cobertura != null and _cobertura.activa
+
+var arma_activa: ArmaTipo:
+	get:
+		return tipo_arma if (_armamento != null and _armamento.usando_la_principal()) else ArmaTipo.PISTOLA
+var usos_principal_restantes: int:
+	get:
+		return _armamento.usos if _armamento != null else 0
 
 signal arma_cambiada(activa: int, principal: int, usos: int)
 
@@ -45,9 +50,8 @@ signal danio_recibido(cantidad: int, vida_restante: int)
 
 func _ready() -> void:
 	vida = vida_maxima
-	usos_principal_restantes = municion_principal
-	_arma_secundaria = Pistola.new()
-	_arma_principal = _crear_arma_principal()
+	_armamento = Armamento.new(tipo_arma, municion_principal)
+	_cobertura = Cobertura.new(self)
 	add_to_group("unidades")
 	mira_laser.visible = false
 	mira_laser.top_level = true
@@ -67,25 +71,10 @@ func inicializar() -> void:
 	pass
 
 
-func _crear_arma_principal() -> Arma:
-	match tipo_arma:
-		ArmaTipo.ESCOPETA:
-			return Escopeta.new()
-		ArmaTipo.GRANADA:
-			return ArmaGranada.new()
-		_:
-			return null
-
-func _arma_actual() -> Arma:
-	if arma_activa != ArmaTipo.PISTOLA and _arma_principal != null:
-		return _arma_principal
-	return _arma_secundaria
-
 func activar() -> void:
 	estado = Estado.MOVIMIENTO
-	arma_activa = ArmaTipo.PISTOLA
-	cubierto = false
-	barril_cubierto = null
+	_armamento.reset_turno()
+	_cobertura.reset()
 	actualizar_color_visual(true)
 	arma_cambiada.emit(arma_activa, tipo_arma, usos_principal_restantes)
 	_actualizar_marcador()
@@ -93,18 +82,13 @@ func activar() -> void:
 
 func desactivar() -> void:
 	estado = Estado.INACTIVO
-	mira_laser.visible = false
-	mira_area.visible = false
-	mira_relleno.visible = false
+	ocultar_miras()
 	actualizar_color_visual(false)
 	_actualizar_marcador()
 	queue_redraw()
 
 func seleccionar_arma(principal: bool) -> void:
-	if principal and tipo_arma != ArmaTipo.PISTOLA and usos_principal_restantes > 0:
-		arma_activa = tipo_arma
-	else:
-		arma_activa = ArmaTipo.PISTOLA
+	_armamento.seleccionar(principal)
 	arma_cambiada.emit(arma_activa, tipo_arma, usos_principal_restantes)
 
 func _actualizar_marcador() -> void:
@@ -115,6 +99,15 @@ func _actualizar_marcador() -> void:
 func actualizar_color_visual(activo: bool) -> void:
 	if visual:
 		visual.modulate = color_activo if activo else color_inactivo
+
+func ocultar_miras() -> void:
+	mira_laser.visible = false
+	mira_area.visible = false
+	mira_relleno.visible = false
+
+func _entrar_en_accion() -> void:
+	estado = Estado.ACCIONADO
+	ocultar_miras()
 
 func _punto_inicio_disparo() -> Vector2:
 	var inicio = muzzle.global_position
@@ -127,26 +120,14 @@ func _punto_inicio_disparo() -> Vector2:
 	return inicio
 
 func disparar() -> void:
-	estado = Estado.ACCIONADO
-	mira_laser.visible = false
-	mira_area.visible = false
-	mira_relleno.visible = false
+	_entrar_en_accion()
 
 	var inicio = _punto_inicio_disparo()
 	var direccion = Vector2.from_angle(arma.rotation)
-	var espera = _arma_actual().disparar(self, inicio, direccion)
-
-	if arma_activa != ArmaTipo.PISTOLA:
-		usos_principal_restantes -= 1
+	var espera = _armamento.disparar(self, inicio, direccion)
 	arma_cambiada.emit(arma_activa, tipo_arma, usos_principal_restantes)
 
-	var barril_cob = barril_cercano()
-	if barril_cob != null:
-		cubierto = true
-		barril_cubierto = barril_cob
-		var lado_cob := signf(global_position.x - barril_cob.global_position.x)
-		if lado_cob != 0.0:
-			visual.flip_h = lado_cob > 0.0
+	_cobertura.recubrir_tras_disparo()
 
 	_programar_fin_disparo(espera)
 
@@ -162,36 +143,13 @@ func aplicar_empuje(desde: Vector2, fuerza: float) -> void:
 	velocity = Vector2(dir.x * fuerza, -fuerza * 0.3)
 
 func barril_cercano() -> Node:
-	var mejor: Node = null
-	var mejor_dist := RANGO_COBERTURA
-	for b in get_tree().get_nodes_in_group("barriles"):
-		if is_instance_valid(b):
-			var dd := global_position.distance_to(b.global_position)
-			if dd < mejor_dist:
-				mejor_dist = dd
-				mejor = b
-	return mejor
+	return _cobertura.barril_cercano()
 
 func puede_cubrirse() -> bool:
-	return estado == Estado.MOVIMIENTO and barril_cercano() != null
+	return estado == Estado.MOVIMIENTO and _cobertura.barril_cercano() != null
 
 func cubrirse(barril_forzado = null) -> void:
-	var b = barril_forzado if barril_forzado != null else barril_cercano()
-	if b == null or not is_instance_valid(b):
-		return
-	estado = Estado.ACCIONADO
-	mira_laser.visible = false
-	mira_area.visible = false
-	mira_relleno.visible = false
-	cubierto = true
-	barril_cubierto = b
-	var lado := signf(global_position.x - b.global_position.x)
-	if lado == 0.0:
-		lado = 1.0
-	global_position.x = b.global_position.x + lado * 28.0
-	visual.flip_h = lado > 0.0
-	_actualizar_marcador()
-	_programar_fin_disparo(0.4)
+	_cobertura.cubrir(barril_forzado)
 
 func recibir_danio(cantidad: int) -> void:
 	vida = max(0, vida - cantidad)
@@ -204,10 +162,9 @@ func recibir_danio(cantidad: int) -> void:
 	if vida <= 0:
 		_morir()
 
-# Dibuja la mira del arma activa, delegando la forma a cada arma.
 func actualizar_mira(direccion: Vector2) -> void:
 	var inicio = muzzle.global_position
-	var datos = _arma_actual().calcular_mira(self, inicio, direccion)
+	var datos = _armamento.calcular_mira(self, inicio, direccion)
 
 	mira_laser.default_color = datos.get("color", Color.WHITE)
 	mira_laser.points = datos.get("linea", PackedVector2Array())
@@ -237,9 +194,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y += GRAVEDAD * delta
 	if estado == Estado.INACTIVO:
 		velocity.x = move_toward(velocity.x, 0.0, FRICCION_EMPUJE * delta)
-	if cubierto and not is_instance_valid(barril_cubierto):
-		cubierto = false
-		barril_cubierto = null
+	_cobertura.chequear_barril()
 
 	procesar_fisicas(delta)
 	move_and_slide()

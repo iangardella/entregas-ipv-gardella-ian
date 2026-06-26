@@ -35,7 +35,6 @@ func calcular_mira(unidad, inicio: Vector2, _direccion: Vector2) -> Dictionary:
 	return datos
 
 
-# Velocidad de lanzamiento para que la granada caiga en 'objetivo'.
 func _velocidad(inicio: Vector2, objetivo: Vector2) -> Vector2:
 	var t = clampf(inicio.distance_to(objetivo) / 420.0, 0.45, 1.5)
 	var vx = (objetivo.x - inicio.x) / t
@@ -43,7 +42,6 @@ func _velocidad(inicio: Vector2, objetivo: Vector2) -> Vector2:
 	return Vector2(vx, vy)
 
 
-# Simula el arco con gravedad y frena al tocar terreno.
 func _arco(unidad, inicio: Vector2, objetivo: Vector2) -> Array[Vector2]:
 	var space_state = unidad.get_world_2d().direct_space_state
 	var excluir: Array[RID] = [unidad.get_rid()]
